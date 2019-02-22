@@ -1,28 +1,27 @@
 package com.example.iiitkota;
 
-import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoggedIn extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     //    DatabaseReference myRef = database.getReference();
-    DrawerLayout drawerLayout;
-    Spinner year, section, subject;
+    private DrawerLayout drawerLayout;
+    private Spinner year;
+    private Spinner subject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +39,14 @@ public class LoggedIn extends AppCompatActivity {
 
         //Initialization of spinners
         year = findViewById(R.id.year);
-        section = findViewById(R.id.section);
+        Spinner section = findViewById(R.id.section);
         subject = findViewById(R.id.subject);
 
         //Setting up toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
+        assert actionbar != null;
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
@@ -113,12 +113,12 @@ public class LoggedIn extends AppCompatActivity {
                                 subject.setAdapter(Subjects);
                                 break;
                             case 2:
-                                Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.csthird, android.R.layout.simple_spinner_item);
+                                Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.ecthird, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
                                 break;
                             case 3:
-                                Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.cssecond, android.R.layout.simple_spinner_item);
+                                Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.ecsecond, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
                                 break;

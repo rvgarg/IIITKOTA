@@ -1,25 +1,18 @@
 package com.example.iiitkota;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 private EditText user,pwd;
-private TextView frgt;
-private Button lgin;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,28 +20,25 @@ private Button lgin;
         setContentView(R.layout.activity_main);
         user=findViewById(R.id.userid);
         pwd=findViewById(R.id.Password);
-        frgt=findViewById(R.id.btnforgotpassword);
-        lgin=findViewById(R.id.btnLogin);
+        TextView frgt = findViewById(R.id.btnforgotpassword);
+        Button lgin = findViewById(R.id.btnLogin);
         mAuth = FirebaseAuth.getInstance();
         lgin.setOnClickListener(v->{
             String email,password;
             email=user.getText().toString();
             password=pwd.getText().toString();
             mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                updateUI(user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(MainActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-                            // ...
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
                         }
+
+                        // ...
                     });
         });
     }

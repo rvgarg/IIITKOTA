@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "1068610047029",
-    "firebase_url": "https://test-3b545.firebaseio.com",
-    "project_id": "test-3b545",
-    "storage_bucket": "test-3b545.appspot.com"
+    "project_number": "586506446164",
+    "firebase_url": "https://iiitkota-f5625.firebaseio.com",
+    "project_id": "iiitkota-f5625",
+    "storage_bucket": "iiitkota-f5625.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1068610047029:android:6db8bc4e9cda664d",
+        "mobilesdk_app_id": "1:586506446164:android:115313376f0154af",
         "android_client_info": {
-          "package_name": "com.example.IIITKOTA"
+          "package_name": "com.example.iiitkota"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1068610047029-fojnsv141od2s1ft2ftn5f2o2i5ei80r.apps.googleusercontent.com",
+          "client_id": "586506446164-fo2thcdriqgfa9snr64p5cbapjgdo4v2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.iiitkota",
+            "certificate_hash": "69f028d8ef496aa89c813a49300ba5569e28e356"
+          }
+        },
+        {
+          "client_id": "586506446164-j8b9lq8b5cf4g86dikbadep46crlkgdu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD3zCBRqWMhCzXsdXYU9VZHzIMKFNDxmxs"
+          "current_key": "AIzaSyAV3cZvSXwqvaY_jJunJe-dQqv4DMiB4MM"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586506446164-j8b9lq8b5cf4g86dikbadep46crlkgdu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

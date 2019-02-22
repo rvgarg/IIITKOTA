@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,7 +23,8 @@ public class LoggedIn extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Spinner year;
     private Spinner subject;
-
+    private Button submit;
+    private String access;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,21 +86,25 @@ public class LoggedIn extends AppCompatActivity {
                                 Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.csforth, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
+                                access = "2015cp";
                                 break;
                             case 2:
                                 Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.csthird, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
+                                access = "2016cp";
                                 break;
                             case 3:
                                 Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.cssecond, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
+                                access = "2017cp";
                                 break;
                             case 4:
                                 Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.first, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
+                                access = "2018cp";
                                 break;
                         }
                         break;
@@ -111,21 +117,25 @@ public class LoggedIn extends AppCompatActivity {
                                 Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.ecforth, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
+                                access = "2015ec";
                                 break;
                             case 2:
                                 Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.ecthird, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
+                                access = "2016ec";
                                 break;
                             case 3:
                                 Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.ecsecond, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
+                                access = "2017ec";
                                 break;
                             case 4:
                                 Subjects = ArrayAdapter.createFromResource(LoggedIn.this, R.array.first, android.R.layout.simple_spinner_item);
                                 Subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 subject.setAdapter(Subjects);
+                                access = "2018ec";
                                 break;
                         }
                         break;
@@ -136,6 +146,12 @@ public class LoggedIn extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
                 Toast.makeText(LoggedIn.this, "Select a year", Toast.LENGTH_LONG).show();
             }
+        });
+
+        //Initializing and setting on click listener on the submit button
+        submit = findViewById(R.id.submit);
+        submit.setOnClickListener(v -> {
+
         });
     }
 

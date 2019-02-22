@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             String email, password;
             email = user.getText().toString();
             password = pwd.getText().toString();
-            if (email.equals(null) || password.equals(null)) {
+            if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(MainActivity.this, "Enter email id and password", Toast.LENGTH_LONG).show();
             } else {
                 mAuth.signInWithEmailAndPassword(email, password)

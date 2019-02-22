@@ -1,5 +1,6 @@
 package com.example.iiitkota;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,26 +16,39 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoggedIn extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     //    DatabaseReference myRef = database.getReference();
+    private FirebaseAuth mAuth;
     private DrawerLayout drawerLayout;
     private Spinner year;
     private Spinner subject;
     private Button submit;
     private String access;
+    private NavigationView nav_View;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in);
-
-        //Setting up drawerlayout
         drawerLayout = findViewById(R.id.drawer);
-        NavigationView nav_View = findViewById(R.id.nav_view);
+        mAuth = FirebaseAuth.getInstance();
+        nav_View = findViewById(R.id.nav_view);
         nav_View.setNavigationItemSelectedListener(menuItem -> {
             menuItem.setChecked(true);
+            int id = menuItem.getItemId();
+            switch (id) {
+                case R.id.logout:
+                    mAuth.signOut();
+                    startActivity(new Intent(LoggedIn.this, MainActivity.class));
+                    break;
+                case R.id.exit:
+                    System.exit(0);
+                    break;
+            }
             drawerLayout.closeDrawers();
             return true;
         });
@@ -157,10 +171,11 @@ public class LoggedIn extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+            return true;
+        } else if (item.getItemId() == nav_View.getMenu().getItem(0).getItemId()) {
+
         }
         return super.onOptionsItemSelected(item);
     }

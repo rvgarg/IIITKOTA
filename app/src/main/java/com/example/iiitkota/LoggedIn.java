@@ -46,7 +46,11 @@ public class LoggedIn extends AppCompatActivity {
                     startActivity(new Intent(LoggedIn.this, MainActivity.class));
                     break;
                 case R.id.exit:
-                    System.exit(0);
+//                    android.os.Process.killProcess(android.os.Process.myPid());
+                    Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                    homeIntent.addCategory(Intent.CATEGORY_HOME);
+                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(homeIntent);
                     break;
             }
             drawerLayout.closeDrawers();
@@ -79,7 +83,21 @@ public class LoggedIn extends AppCompatActivity {
 
         //Applying adapters to spinners
         year.setAdapter(Years);
-        section.setAdapter(Sections);
+        //Setting on click listener on years spinner
+        year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                                           @Override
+                                           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                               section.setAdapter(Sections);
+                                           }
+
+                                           @Override
+                                           public void onNothingSelected(AdapterView<?> parent) {
+                                               Toast.makeText(LoggedIn.this, "Select a year", Toast.LENGTH_LONG).show();
+                                           }
+                                       }
+        );
+
 
         //Applying item selection listeners
         section.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -158,7 +176,7 @@ public class LoggedIn extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(LoggedIn.this, "Select a year", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoggedIn.this, "Select a section", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -180,4 +198,7 @@ public class LoggedIn extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void subChoser() {
+
+    }
 }

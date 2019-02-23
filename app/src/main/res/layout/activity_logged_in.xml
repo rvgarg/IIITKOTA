@@ -51,7 +51,6 @@
             <Spinner
                 android:id="@+id/year"
                 android:layout_width="match_parent"
-                android:entries="@array/year"
                 android:layout_weight="1"
                 android:layout_height="wrap_content" />
 
@@ -80,8 +79,7 @@
                 android:id="@+id/section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:entries="@array/section" />
+                android:layout_weight="1" />
         </LinearLayout>
 
 

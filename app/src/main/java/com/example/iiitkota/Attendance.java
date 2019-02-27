@@ -3,15 +3,23 @@ package com.example.iiitkota;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class Attendance extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -21,6 +29,7 @@ public class Attendance extends AppCompatActivity {
     DatabaseReference myRef;
     DrawerLayout drawer;
     NavigationView nav;
+    ArrayList<List> stuList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,21 +86,28 @@ public class Attendance extends AppCompatActivity {
         intent.getStringExtra(referance);
 
         //Getting reference of the firebase database
-        myRef = database.getReference(referance);
+        myRef = database.getReference().child(referance);
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                stuList.add(dataSnapshot.getValue(List.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        MyAdapter myAdapter = new MyAdapter(stuList);
+
+        //Setting up recycler view
+        //Setting Adapter
+        recyclerView.setAdapter(myAdapter);
+        //Setting fixed size attribute
+        recyclerView.setHasFixedSize(true);
+        //Setting layout manager
+        recyclerView.setLayoutManager(layoutManager);
     }
 
-    public class MyTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String aVoid) {
-
-        }
-
-    }
 }
-

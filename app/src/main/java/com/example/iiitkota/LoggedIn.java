@@ -124,7 +124,7 @@ public class LoggedIn extends AppCompatActivity {
         submit = findViewById(R.id.submit);
         submit.setOnClickListener(v -> {
             if (subject.getSelectedItemPosition() != 0) {
-                Intent intent = new Intent(LoggedIn.this, Marks.class);
+                Intent intent = new Intent(LoggedIn.this, Attendance.class);
                 intent.putExtra("Database Referance key", access);
                 startActivity(intent);
             } else {

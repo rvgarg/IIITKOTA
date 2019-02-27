@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static com.google.firebase.auth.FirebaseAuth.getInstance;
+
 public class MainActivity extends AppCompatActivity {
     private EditText user, pwd;
     private FirebaseAuth mAuth;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         Button lgin = findViewById(R.id.btnLogin);
 
         //Getting authentication instance
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = getInstance();
 
         //Setting up on click listener on the login button
         lgin.setOnClickListener(v -> {
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                                 //Getting the current user information
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 //Updating the activity according to the user
-                                updateUI(user, task.getResult().getAdditionalUserInfo().isNewUser());
+                                updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(MainActivity.this, "Authentication failed.",
@@ -86,13 +88,14 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null)
-            updateUI(currentUser, false);
+            updateUI(currentUser);
     }
 
-    private void updateUI(FirebaseUser currentUser, boolean bool) {
+    private void updateUI(FirebaseUser currentUser) {
 //    if(Long.parseLong(String.valueOf(currentUser.getMetadata().getLastSignInTimestamp())) == NULL)
         //Checking if the user is new or not
-        if (bool) {
+
+        if (FirebaseAuth.getInstance().getCurrentUser().getMetadata().getLastSignInTimestamp() < FirebaseAuth.getInstance().getCurrentUser().getMetadata().getCreationTimestamp()) {
 
             //Declaring 3 linear layout for building alert box to change password for time users
             LinearLayout layout = new LinearLayout(this);

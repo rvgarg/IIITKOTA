@@ -1,6 +1,6 @@
 package com.example.iiitkota;
 
-public class List {
+class List {
 private String mName;
 private String mId;
 

@@ -19,7 +19,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         // each data item is just a string in this case
         TextView mName,mId;
         Switch present;
-        public MyViewHolder(LayoutInflater inflater, ViewGroup parent){
+        MyViewHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.recycler_layout,parent,false));
             mName = parent.findViewById(R.id.name);
             mId = parent.findViewById(R.id.id);

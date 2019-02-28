@@ -9,16 +9,15 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class forgotPassword extends AppCompatActivity {
-    private Button submit;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    String emailAddress;
+    private final FirebaseAuth auth = FirebaseAuth.getInstance();
+    private String emailAddress;
     private EditText email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-        submit = findViewById(R.id.subt);
+        Button submit = findViewById(R.id.subt);
         email = findViewById(R.id.email);
 
         submit.setOnClickListener(v -> {

@@ -13,7 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".forgotPassword"></activity>
+        <activity
+            android:name=".Attendance"
+            android:label="@string/title_activity_attendance"
+            android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".forgotPassword" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Attendance" />
         <activity android:name=".LoggedIn" />
     </application>
 

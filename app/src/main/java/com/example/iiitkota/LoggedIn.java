@@ -25,7 +25,6 @@ public class LoggedIn extends AppCompatActivity {
     private Spinner year;
     private Spinner subject;
     private Spinner section;
-    private Button submit;
     private String access;
     private NavigationView nav_View;
 
@@ -121,12 +120,12 @@ public class LoggedIn extends AppCompatActivity {
         });
 
         //Initializing and setting on click listener on the submit button
-        submit = findViewById(R.id.submit);
+        Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(v -> {
             if (subject.getSelectedItemPosition() != 0) {
-                Intent intent = new Intent(LoggedIn.this, Attendance.class);
-                intent.putExtra("Database Referance key", access);
-                startActivity(intent);
+//                Intent intent = new Intent(LoggedIn.this, Attendance.class);
+//                intent.putExtra("Database Referance key", access);
+//                startActivity(intent);
             } else {
                 Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
             }
@@ -144,7 +143,7 @@ public class LoggedIn extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void subChoser() {
+    private void subChoser() {
         ArrayAdapter<CharSequence> Subjects;
         switch (section.getSelectedItemPosition()) {
             case 0:

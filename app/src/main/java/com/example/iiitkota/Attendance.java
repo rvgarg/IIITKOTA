@@ -103,8 +103,6 @@ public class Attendance extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                List data = dataSnapshot.getValue(List.class);
-//                stuList.add(data);
                 for(DataSnapshot child : dataSnapshot.getChildren()){
                     stuList.add(new List(
                             child.child("Student Id").getValue(String.class),
@@ -112,8 +110,6 @@ public class Attendance extends AppCompatActivity {
 
                     ));
                 }
-
-                Log.d("data",dataSnapshot.getValue().toString()+"");
             }
 
             @Override

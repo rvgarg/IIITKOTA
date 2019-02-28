@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -38,6 +41,14 @@ public class Attendance extends AppCompatActivity {
 
         //Initializing NavigationView
         nav = findViewById(R.id.nav_view1);
+
+        //Setting toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        assert actionbar != null;
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         //Initializing DrawerLayout
         drawer = findViewById(R.id.drawerMarks);
@@ -82,16 +93,27 @@ public class Attendance extends AppCompatActivity {
         Intent intent = getIntent();
 
         //Getting extra data from intent
-        String referance = new String();
-        intent.getStringExtra(referance);
+        String referance = "";
+        referance = intent.getStringExtra("Database Referance key");
+        Log.d("refer",referance);
 
         //Getting reference of the firebase database
-        myRef = database.getReference().child(referance);
+        myRef = database.getReference(referance);
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                stuList.add(dataSnapshot.getValue(List.class));
+//                List data = dataSnapshot.getValue(List.class);
+//                stuList.add(data);
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                    stuList.add(new List(
+                            child.child("Student Id").getValue(String.class),
+                            child.child("Student Name").getValue(String.class)
+
+                    ));
+                }
+
+                Log.d("data",dataSnapshot.getValue().toString()+"");
             }
 
             @Override

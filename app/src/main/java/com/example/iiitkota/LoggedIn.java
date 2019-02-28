@@ -123,9 +123,10 @@ public class LoggedIn extends AppCompatActivity {
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(v -> {
             if (subject.getSelectedItemPosition() != 0) {
-//                Intent intent = new Intent(LoggedIn.this, Attendance.class);
-//                intent.putExtra("Database Referance key", access);
-//                startActivity(intent);
+                Intent intent = new Intent(LoggedIn.this, Attendance.class);
+                intent.putExtra("Database Referance key", access);
+                intent.putExtra("Subject",subject.getSelectedItem().toString());
+                startActivity(intent);
             } else {
                 Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
             }

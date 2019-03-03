@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             password = pwd.getText().toString().trim();
 
             //Checking if the email address or password is empty
-            if (email.isEmpty() || password.isEmpty()) {
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
 
                 //Showing message to hte user
                 Toast.makeText(MainActivity.this, "Enter email id and password", Toast.LENGTH_LONG).show();

@@ -16,7 +16,7 @@
         <activity
             android:name=".Attendance"
             android:label="@string/title_activity_attendance"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity android:name=".forgotPassword" />
         <activity android:name=".MainActivity">
             <intent-filter>

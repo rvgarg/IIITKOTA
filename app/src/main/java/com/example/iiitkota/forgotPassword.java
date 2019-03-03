@@ -2,10 +2,12 @@ package com.example.iiitkota;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.common.util.DataUtils;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class forgotPassword extends AppCompatActivity {
@@ -24,7 +26,7 @@ public class forgotPassword extends AppCompatActivity {
             emailAddress = email.getText().toString();
 
             //Checking for null email address
-            if (!emailAddress.equals(null)) {
+            if (!TextUtils.isEmpty(emailAddress)) {
                 auth.sendPasswordResetEmail(emailAddress)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {

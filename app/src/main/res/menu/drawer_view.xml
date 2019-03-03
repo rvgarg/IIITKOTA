@@ -8,11 +8,13 @@
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_sentiment_dissatisfied_black_24dp"
-                android:title="LogOut" />
+                android:title="LogOut"
+                tools:ignore="HardcodedText" />
             <item
                 android:id="@+id/exit"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
-                android:title="Exit" />
+                android:title="Exit"
+                tools:ignore="HardcodedText" />
         </group>
 
 </menu>

@@ -51,6 +51,7 @@ public class LoggedIn extends AppCompatActivity {
                     //Signing out the user
                     mAuth.signOut();
                     startActivity(new Intent(LoggedIn.this, MainActivity.class));
+                    finish();
                     break;
                 case R.id.exit:
 //                   Exiting the application
@@ -127,6 +128,7 @@ public class LoggedIn extends AppCompatActivity {
                 intent.putExtra("Database Referance key", access);
                 intent.putExtra("Subject",subject.getSelectedItem().toString());
                 startActivity(intent);
+                finish();
             } else {
                 Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
             }

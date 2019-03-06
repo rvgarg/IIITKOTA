@@ -12,5 +12,5 @@
         android:layout_height="97dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/IIIT-_Kota_Logo_white" />
+        android:src="@drawable/iiit_kota_logo_white" />
 </RelativeLayout>

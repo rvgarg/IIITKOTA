@@ -50,7 +50,11 @@ public class LoggedIn extends AppCompatActivity {
 
                     //Signing out the user
                     mAuth.signOut();
+
+                    //Launching login activity
                     startActivity(new Intent(LoggedIn.this, MainActivity.class));
+
+                    //finishing this activity
                     finish();
                     break;
                 case R.id.exit:
@@ -84,22 +88,31 @@ public class LoggedIn extends AppCompatActivity {
         //creating array adapters
         Years = ArrayAdapter.createFromResource(this, R.array.year, android.R.layout.simple_spinner_item);
 
-
         //Specifing Layouts for spinners
         Years.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-
         //Applying adapters to spinners
         year.setAdapter(Years);
+
         //Setting on click listener on years spinner
         year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                            @Override
                                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                if(year.getSelectedItemPosition() != 0){
+
+                                                   //Declaring and initializing array adapter for spinner
                                                    ArrayAdapter<CharSequence> Sections = ArrayAdapter.createFromResource(LoggedIn.this, R.array.section, android.R.layout.simple_spinner_item);
+
+                                                   //Setting up layout for dropdown style
                                                    Sections.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                                                   //Setting up adapter for sections spinner
                                                    section.setAdapter(Sections);
+
+                                                   //Setting subjects spinner adapter to null
                                                    subject.setAdapter(null);
+
+                                                   //Calling function for choosing subject list
                                                    subChoser();
                                                }
                                            }
@@ -115,11 +128,12 @@ public class LoggedIn extends AppCompatActivity {
         section.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                //Calling function to choose subject list
                 subChoser();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-//                Toast.makeText(LoggedIn.this, "Select a section", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -127,10 +141,20 @@ public class LoggedIn extends AppCompatActivity {
         Button submit = findViewById(R.id.submit);
         submit.setOnClickListener(v -> {
             if (subject.getSelectedItemPosition() != 0) {
+
+                //Declaring and initializing intent for attendance activity
                 Intent intent = new Intent(LoggedIn.this, Attendance.class);
+
+                //Adding database referance key name to the intent
                 intent.putExtra("Database Referance key", access);
+
+                //Adding the subject chosen by the user
                 intent.putExtra("Subject",subject.getSelectedItem().toString());
+
+                //Launching intent
                 startActivity(intent);
+
+                //Finishing this activity
                 finish();
             } else {
                 Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
@@ -138,6 +162,7 @@ public class LoggedIn extends AppCompatActivity {
         });
     }
 
+    //On option selected listener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -149,6 +174,7 @@ public class LoggedIn extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Subject list setting function
     private void subChoser() {
         ArrayAdapter<CharSequence> Subjects;
         switch (section.getSelectedItemPosition()) {

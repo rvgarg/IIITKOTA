@@ -18,14 +18,23 @@ public class forgotPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
+
+        //Getting referance of submit button from the layout file
         Button submit = findViewById(R.id.subt);
+
+        //Getting referance of email edit text
         email = findViewById(R.id.email);
 
+        //Setting on click listener on submit button
         submit.setOnClickListener(v -> {
+
+            //Getting email address entered by the user
             emailAddress = email.getText().toString();
 
             //Checking for null email address
             if (!TextUtils.isEmpty(emailAddress)) {
+
+                //Sending password reset link
                 auth.sendPasswordResetEmail(emailAddress)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {

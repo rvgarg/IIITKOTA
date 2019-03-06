@@ -79,15 +79,15 @@ public class LoggedIn extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         //Creating arrayadapters for the spinners
-        ArrayAdapter<CharSequence> Years, Sections;
+        ArrayAdapter<CharSequence> Years;
 
         //creating array adapters
         Years = ArrayAdapter.createFromResource(this, R.array.year, android.R.layout.simple_spinner_item);
-        Sections = ArrayAdapter.createFromResource(this, R.array.section, android.R.layout.simple_spinner_item);
+
 
         //Specifing Layouts for spinners
         Years.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Sections.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
 
         //Applying adapters to spinners
         year.setAdapter(Years);
@@ -95,9 +95,13 @@ public class LoggedIn extends AppCompatActivity {
         year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                            @Override
                                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                               section.setAdapter(Sections);
-                                               subject.setAdapter(null);
-                                               subChoser();
+                                               if(year.getSelectedItemPosition() != 0){
+                                                   ArrayAdapter<CharSequence> Sections = ArrayAdapter.createFromResource(LoggedIn.this, R.array.section, android.R.layout.simple_spinner_item);
+                                                   Sections.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                   section.setAdapter(Sections);
+                                                   subject.setAdapter(null);
+                                                   subChoser();
+                                               }
                                            }
 
                                            @Override
@@ -106,7 +110,6 @@ public class LoggedIn extends AppCompatActivity {
                                            }
                                        }
         );
-
 
         //Applying item selection listeners
         section.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

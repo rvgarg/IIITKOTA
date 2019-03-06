@@ -3,6 +3,7 @@ package com.example.iiitkota;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,21 +32,26 @@ public class Attendance extends AppCompatActivity
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
     private ArrayList<List> listStudents = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Intent intent = getIntent();
         RecyclerView recyclerView = findViewById(R.id.recycler);
         MyAdapter adapter;
-        adapter = new MyAdapter(listStudents);
+
+        /**Calling constructor of MyAdapter
+         * {@link MyAdapter}
+         */
+        adapter = new MyAdapter(listStudents,intent.getStringExtra("Subject"),intent.getStringExtra("Database Referance key"));
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        /**Making an object of drawer layout from {@link drawer_layuot/content_attendance.xml}*/
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -53,16 +60,52 @@ public class Attendance extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//Getting database referance key
-        Intent intent = getIntent();
+/**Getting database referance key*/
+
         myRef = database.getReference(intent.getStringExtra("Database Referance key"));
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+       /* myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List list = dataSnapshot.getValue(List.class);
                 listStudents.add(list);
+
+                *//**Adding dataSet change callback function to Adapter {@link #adapter}*//*
                 adapter.notifyDataSetChanged();
-                Log.d("data",""+list.getId());
+                Log.d("data", "" + list.getStudent_ID());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("chk","on child change fired");
+                Log.e("snap",""+dataSnapshot.toString());
+                List list = dataSnapshot.getValue(List.class);
+                list.setKey(dataSnapshot.getKey());
+                listStudents.add(list);
+
+                /**Adding dataSet change callback function to Adapter {@link #adapter}*/
+                adapter.notifyDataSetChanged();
+                Log.e("data", "" + list.getStudent_ID());
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override
@@ -104,7 +147,6 @@ public class Attendance extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

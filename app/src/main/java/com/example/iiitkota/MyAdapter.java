@@ -1,20 +1,30 @@
 package com.example.iiitkota;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
-
+private  String Subject;
+private String Access;
     private final ArrayList<List> dataSet;
-    public MyAdapter(ArrayList<List> mdataSet){
+    public MyAdapter(ArrayList<List> mdataSet,String subject,String access){
         dataSet = mdataSet;
+        Subject = subject;
+        Access = access;
     }
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -40,8 +50,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         List data = dataSet.get(i);
-        myViewHolder.mId.setText(data.getId());
-        myViewHolder.mName.setText(data.getName());
+        myViewHolder.mId.setText(data.getStudent_ID());
+        myViewHolder.mName.setText(data.getStudent_Name());
+        myViewHolder.present.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            String key =data.getKey();
+
+            HashMap<String,String>sub = data.getAttendance().get(Subject);
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Access).child(key).child("attendance").child(Subject);
+            if(isChecked){
+
+//                DatabaseReference ref = FirebaseDatabase.getInstance().getReference(key).child(Subject);
+                sub.put(new Date().toString(),"Present");
+            } else {
+
+
+                sub.put(new Date().toString(),"NotPresent");
+            }
+        ref.setValue(sub);
+        });
     }
 
     @Override

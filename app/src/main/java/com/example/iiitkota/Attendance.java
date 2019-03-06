@@ -32,14 +32,14 @@ public class Attendance extends AppCompatActivity
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
     private ArrayList<List> listStudents = new ArrayList<>();
-
+    Intent intent ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Intent intent = getIntent();
+        intent = getIntent();
         RecyclerView recyclerView = findViewById(R.id.recycler);
         MyAdapter adapter;
 
@@ -155,7 +155,12 @@ public class Attendance extends AppCompatActivity
         if (id == R.id.attendance) {
 
         } else if (id == R.id.marks) {
+            Intent in = new Intent(Attendance.this,Marks.class);
+            startActivity(in);
+            in.putExtra("Database Referance key",intent.getStringExtra("Database Referance key"));
+            in.putExtra("Subject",intent.getStringExtra("Subject"));
 
+            finish();
         } else if (id == R.id.sigot) {
             FirebaseAuth.getInstance().signOut();
         } else if (id == R.id.ext) {

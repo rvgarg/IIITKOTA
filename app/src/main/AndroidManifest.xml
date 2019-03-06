@@ -14,6 +14,10 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".Marks"
+            android:label="@string/title_activity_marks"
+            android:theme="@style/NoActionBar"></activity>
+        <activity
             android:name=".Attendance"
             android:label="@string/title_activity_attendance"
             android:theme="@style/NoActionBar" />

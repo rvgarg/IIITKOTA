@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.MyViewHolderMarks> {
-    private String Subject;
-    private String Access;
+    private final String Subject;
+    private final String Access;
     private final ArrayList<List> dataSet;
 
     public MarksAdapter(ArrayList<List> mdataSet, String subject, String access) {

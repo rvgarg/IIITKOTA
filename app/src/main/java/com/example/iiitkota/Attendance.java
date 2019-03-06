@@ -23,7 +23,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ public class Attendance extends AppCompatActivity
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
     private ArrayList<List> listStudents = new ArrayList<>();
-    Intent intent ;
+    private Intent intent ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +42,12 @@ public class Attendance extends AppCompatActivity
         RecyclerView recyclerView = findViewById(R.id.recycler);
         MyAdapter adapter;
 
-        /**Calling constructor of MyAdapter
-         * {@link MyAdapter}
-         */
         adapter = new MyAdapter(listStudents,intent.getStringExtra("Subject"),intent.getStringExtra("Database Referance key"));
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        /**Making an object of drawer layout from {@link drawer_layuot/content_attendance.xml}*/
+        /*Making an object of drawer layout from {@link drawer_layuot/content_attendance.xml}*/
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -60,7 +56,7 @@ public class Attendance extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-/**Getting database referance key*/
+        /*Getting database referance key*/
 
         myRef = database.getReference(intent.getStringExtra("Database Referance key"));
        /* myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -69,7 +65,7 @@ public class Attendance extends AppCompatActivity
                 List list = dataSnapshot.getValue(List.class);
                 listStudents.add(list);
 
-                *//**Adding dataSet change callback function to Adapter {@link #adapter}*//*
+                *//*Adding dataSet change callback function to Adapter {@link #adapter}*//*
                 adapter.notifyDataSetChanged();
                 Log.d("data", "" + list.getStudent_ID());
             }
@@ -88,7 +84,7 @@ public class Attendance extends AppCompatActivity
                 list.setKey(dataSnapshot.getKey());
                 listStudents.add(list);
 
-                /**Adding dataSet change callback function to Adapter {@link #adapter}*/
+                /*Adding dataSet change callback function to Adapter {@link #adapter}*/
                 adapter.notifyDataSetChanged();
                 Log.e("data", "" + list.getStudent_ID());
             }

@@ -25,5 +25,6 @@
         android:layout_width="50dp"
         android:id="@+id/m_enter"
         android:hint="Marks"
+        android:inputType="numberDecimal"
         android:layout_height="wrap_content" />
 </LinearLayout>

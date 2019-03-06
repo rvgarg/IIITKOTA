@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private String Subject;
-    private String Access;
+    private final String Subject;
+    private final String Access;
     private final ArrayList<List> dataSet;
 
     public MyAdapter(ArrayList<List> mdataSet, String subject, String access) {

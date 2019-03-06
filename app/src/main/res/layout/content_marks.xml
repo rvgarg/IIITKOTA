@@ -12,7 +12,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/test"
-    android:hint="Enter Test Name"/>
+    android:hint="Enter Test Name"
+    android:inputType="text"
+    android:importantForAutofill="no" />
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/marksrecycler"

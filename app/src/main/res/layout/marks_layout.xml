@@ -22,7 +22,7 @@
 </LinearLayout>
     <EditText
         android:layout_weight="2"
-        android:layout_width="50dp"
+        android:layout_width="100dp"
         android:id="@+id/m_enter"
         android:hint="Marks"
         android:inputType="numberDecimal"

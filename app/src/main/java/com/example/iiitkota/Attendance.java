@@ -47,7 +47,7 @@ public class Attendance extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        /*Making an object of drawer layout from {@link drawer_layuot/content_attendance.xml}*/
+        /*Making an object of drawer layout */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -59,22 +59,7 @@ public class Attendance extends AppCompatActivity
         /*Getting database referance key*/
 
         myRef = database.getReference(intent.getStringExtra("Database Referance key"));
-       /* myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List list = dataSnapshot.getValue(List.class);
-                listStudents.add(list);
 
-                *//*Adding dataSet change callback function to Adapter {@link #adapter}*//*
-                adapter.notifyDataSetChanged();
-                Log.d("data", "" + list.getStudent_ID());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

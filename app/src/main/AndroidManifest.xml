@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".StudentActivity"
+            android:label="@string/title_activity_student"
+            android:theme="@style/NoActionBar"></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +33,7 @@
             android:label="@string/title_activity_attendance"
             android:theme="@style/NoActionBar" />
         <activity android:name=".forgotPassword" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".LoggedIn" />
     </application>
 

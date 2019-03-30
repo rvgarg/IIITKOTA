@@ -1,5 +1,6 @@
 package com.example.iiitkota;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -19,6 +20,11 @@ public class forgotPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
+        ProgressDialog p = new ProgressDialog(this);
+        p.setCancelable(false);
+        p.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        p.setMessage("Sending Email!!");
+
         //Getting referance of submit button from the layout file
         Button submit = findViewById(R.id.subt);
 
@@ -28,6 +34,7 @@ public class forgotPassword extends AppCompatActivity {
         //Setting on click listener on submit button
         submit.setOnClickListener(v -> {
 
+            p.show();
             //Getting email address entered by the user
             emailAddress = email.getText().toString();
 
@@ -38,12 +45,15 @@ public class forgotPassword extends AppCompatActivity {
                 auth.sendPasswordResetEmail(emailAddress)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
+                                p.dismiss();
                                 Toast.makeText(forgotPassword.this, "Email Sent!!!", Toast.LENGTH_LONG).show();
                             } else {
+                                p.dismiss();
                                 Toast.makeText(forgotPassword.this, "Failed to send email!!!", Toast.LENGTH_LONG).show();
                             }
                         });
             } else {
+                p.dismiss();
                 Toast.makeText(forgotPassword.this, "Enter registered Email Address !!", Toast.LENGTH_LONG).show();
             }
         });

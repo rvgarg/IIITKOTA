@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="#FFFF00"
+    android:background="#000000"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <ImageView
@@ -17,7 +17,7 @@
         android:layout_marginEnd="106dp"
         android:layout_marginBottom="58dp"
         android:contentDescription="Log IIITKOTA"
-        android:src="@drawable/download" />
+        android:src="@drawable/iiit_kota_logo_white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,14 +32,17 @@
             android:layout_marginEnd="15dp"
             android:contentDescription="TODO"
             app:srcCompat="@drawable/ic_person_black_24dp" />
-    <EditText
-        android:id="@+id/userid"
-        android:layout_width="313dp"
-        android:layout_height="47dp"
-        android:ems="10"
-        android:autofillHints=""
-        android:hint="UserId"
-        android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/userid"
+            android:layout_width="313dp"
+            android:layout_height="47dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="UserId"
+            android:inputType="textEmailAddress"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff" />
     </LinearLayout>
 
     <LinearLayout
@@ -50,42 +53,44 @@
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="38dp"
+            android:layout_height="47dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
-            android:layout_height="47dp"
-            app:srcCompat="@drawable/ic_keyboard_black_24dp"
-            android:contentDescription="TODO" />
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/ic_keyboard_black_24dp" />
 
         <EditText
             android:id="@+id/Password"
             android:layout_width="317dp"
             android:layout_height="53dp"
+            android:autofillHints=""
             android:ems="10"
+            android:textColor="#ffffff"
             android:hint="password"
             android:inputType="textPassword"
-            android:autofillHints="" />
+            android:textColorHint="#ffffff" />
     </LinearLayout>
 
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="350dp"
-        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:background="#FFFF55"
-        android:text="Login"
+        android:layout_gravity="center"
         android:layout_marginTop="60dp"
-        android:textColor="#333333" />
+        android:background="#000000"
+        android:text="Login"
+        android:textColor="#FFFFFF" />
 
 
     <TextView
         android:id="@+id/btnforgotpassword"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
         android:text="Forgot Password?"
-        android:textColor="#000000" />
+        android:textColor="#FFFFFF" />
 
 
 </LinearLayout>

@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +41,14 @@ public class LoggedIn extends AppCompatActivity {
 
         //Initializing the navigation view
         nav_View = findViewById(R.id.nav_view);
+
+        View header = nav_View.getHeaderView(0);
+
+        TextView nam = header.findViewById(R.id.nam);
+        TextView tid = header.findViewById(R.id.id);
+
+        nam.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " ");
+        tid.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         //Setting up the listener on navigation view
         nav_View.setNavigationItemSelectedListener(menuItem -> {

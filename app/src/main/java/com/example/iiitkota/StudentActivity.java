@@ -30,12 +30,12 @@ import java.util.HashMap;
 
 public class StudentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    FirebaseDatabase database;
-    DatabaseReference mRef;
-    List data;
-    ArrayList<String> headerList = new ArrayList<>();
-    HashMap<String, ArrayList<Pair<String, String>>> childListAttendance = new HashMap<>();
-    HashMap<String, ArrayList<Pair<String, String>>> childListMarks = new HashMap<>();
+    private FirebaseDatabase database;
+    private DatabaseReference mRef;
+    private List data;
+    private ArrayList<String> headerList = new ArrayList<>();
+    private HashMap<String, ArrayList<Pair<String, String>>> childListAttendance = new HashMap<>();
+    private HashMap<String, ArrayList<Pair<String, String>>> childListMarks = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,14 +165,14 @@ public class StudentActivity extends AppCompatActivity
         return true;
     }
 
-    public void prepHeaderList() {
+    private void prepHeaderList() {
         for (HashMap.Entry<String, HashMap<String, String>> ht : data.getAttendance().entrySet()) {
             headerList.add(ht.getKey());
         }
 
     }
 
-    public void prepChildListAttendance() {
+    private void prepChildListAttendance() {
         HashMap<String, HashMap<String, String>> dat;
         dat = data.getAttendance();
         for (HashMap.Entry<String, HashMap<String, String>> it : dat.entrySet()) {
@@ -184,7 +184,7 @@ public class StudentActivity extends AppCompatActivity
         }
     }
 
-    public void prepChildListMarks() {
+    private void prepChildListMarks() {
         HashMap<String, HashMap<String, String>> dat;
         dat = data.getMarks();
         for (HashMap.Entry<String, HashMap<String, String>> it : dat.entrySet()) {

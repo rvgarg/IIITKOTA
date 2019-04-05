@@ -25,11 +25,12 @@ import com.google.firebase.storage.StorageReference;
 import java.io.IOException;
 
 public class SettingActivity extends AppCompatActivity {
-    FirebaseUser user;
-    FirebaseStorage storage;
-    StorageReference storageReference;
-    final int REQUEST_IMAGE_GET = 1;
-    ImageView profilePic, edit;
+    private FirebaseUser user;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private final int REQUEST_IMAGE_GET = 1;
+    private ImageView profilePic;
+    private ImageView edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +74,7 @@ public class SettingActivity extends AppCompatActivity {
 //
                     mDisplayName.setFocusableInTouchMode(true);
                     mDisplayName.requestFocus();
-                })).setNegativeButton("No", ((dialog, which) -> {
-                    mDisplayName.setFocusableInTouchMode(false);
-                })).show();
+                })).setNegativeButton("No", ((dialog, which) -> mDisplayName.setFocusableInTouchMode(false))).show();
             });
         if (!mMobileNumber.isFocusableInTouchMode())
             mMobileNumber.setOnClickListener(v -> {
@@ -85,9 +84,7 @@ public class SettingActivity extends AppCompatActivity {
 
                     mMobileNumber.setFocusableInTouchMode(true);
                     mMobileNumber.requestFocus();
-                })).setNegativeButton("No", ((dialog, which) -> {
-                    mDisplayName.setFocusableInTouchMode(false);
-                })).show();
+                })).setNegativeButton("No", ((dialog, which) -> mDisplayName.setFocusableInTouchMode(false))).show();
             });
         changePassword.setOnClickListener(v -> {
             TextInputLayout lnPass, lcPass;
@@ -174,9 +171,7 @@ public class SettingActivity extends AppCompatActivity {
                 }
 
 
-            }).addOnFailureListener(e -> {
-                Toast.makeText(SettingActivity.this, "Failed to update profile picture!!!", Toast.LENGTH_LONG).show();
-            });
+            }).addOnFailureListener(e -> Toast.makeText(SettingActivity.this, "Failed to update profile picture!!!", Toast.LENGTH_LONG).show());
         }
     }
 

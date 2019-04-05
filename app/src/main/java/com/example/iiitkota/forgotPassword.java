@@ -3,7 +3,6 @@ package com.example.iiitkota;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -28,7 +27,7 @@ public class forgotPassword extends AppCompatActivity {
         p.setMessage("Sending Email!!");
 
         //Getting referance of submit button from the layout file
-        MaterialButton submit = findViewById(R.id.subt);
+        Button submit = findViewById(R.id.subt);
 
         //Getting referance of email edit text
         email = findViewById(R.id.email);

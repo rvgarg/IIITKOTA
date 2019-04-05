@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class StudentAdapter extends BaseExpandableListAdapter {
+@SuppressWarnings("unchecked")
+class StudentAdapter extends BaseExpandableListAdapter {
 
-    Context mContext;
-    List<String> dataHeader;
-    HashMap<String,ArrayList<Pair<String,String>>> dataList;
+    private Context mContext;
+    private List<String> dataHeader;
+    private HashMap<String,ArrayList<Pair<String,String>>> dataList;
 
     public StudentAdapter(Context context, List<String> dataHeader, HashMap<String, ArrayList<Pair<String, String>>> dataList){
         this.mContext = context;

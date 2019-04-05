@@ -29,12 +29,12 @@ import java.util.HashMap;
 public class AttendanceViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    StudentAdapter adapter;
-    ArrayList<String> headerList = new ArrayList<>();
-    HashMap<String, ArrayList<Pair<String, String>>> childList = new HashMap<>();
-    Intent intent;
-    FirebaseDatabase mRef;
-    DatabaseReference ref;
+    private StudentAdapter adapter;
+    private ArrayList<String> headerList = new ArrayList<>();
+    private HashMap<String, ArrayList<Pair<String, String>>> childList = new HashMap<>();
+    private Intent intent;
+    private FirebaseDatabase mRef;
+    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

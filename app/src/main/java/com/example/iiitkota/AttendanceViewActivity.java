@@ -1,6 +1,5 @@
 package com.example.iiitkota;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,17 +8,13 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.animation.AlphaAnimation;
+import android.widget.ExpandableListView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -31,98 +26,74 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Marks extends AppCompatActivity
+public class AttendanceViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private ArrayList<List> listStudents = new ArrayList<>();
-    private Intent intent;
+
+    StudentAdapter adapter;
+    ArrayList<String> headerList = new ArrayList<>();
+    HashMap<String, ArrayList<Pair<String, String>>> childList = new HashMap<>();
+    Intent intent;
+    FirebaseDatabase mRef;
+    DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_marks);
-
-        //Declaring and initializing toolbar
+        setContentView(R.layout.activity_attendance_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
-        //Setting up support action toolbar
         setSupportActionBar(toolbar);
 
-        //Getting hte intent that triggered this activity
+        ExpandableListView listView = findViewById(R.id.expstu);
+
+        adapter = new StudentAdapter(AttendanceViewActivity.this,headerList,childList);
+
+        listView.setAnimation(new AlphaAnimation((float) 0.2, (float) 1.0));
+
+        listView.setAdapter(adapter);
+
         intent = getIntent();
 
-        ProgressDialog p = new ProgressDialog(this);
-        p.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        p.setMessage("Loading Data!!");
-        p.setCancelable(false);
-        p.show();
+        String subject, databaseReferance, show;
 
-        //Declaring and initializing recycler view
-        RecyclerView recyclerView = findViewById(R.id.recycler);
+        subject = intent.getStringExtra("Subject");
 
-        //Declaring and initializing adapter for recycler layout
-        MarksAdapter adapter = new MarksAdapter(listStudents, intent.getStringExtra("Subject"), intent.getStringExtra("Database Referance key"));
+        databaseReferance = intent.getStringExtra("Database Referance key");
 
-        //Declaring and initializing layout manager for recycler view
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        show = intent.getStringExtra("Show");
 
-        //Setting layout manager for recycler view
-        recyclerView.setLayoutManager(layoutManager);
+        mRef = FirebaseDatabase.getInstance();
 
-        //Setting adapter for recycler view
-        recyclerView.setAdapter(adapter);
+        ref = mRef.getReference(databaseReferance);
 
-        //Setting animator for recycler view
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        //Declaring and initializing drawer layout
-        DrawerLayout drawer = findViewById(R.id.drawer_layout1);
-
-        //Declaring and initializing drawer toggle
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
-        //Adding app drawer toggle listener syncing its state
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        //Declaring and initializing the navigation view
-        NavigationView navigationView = findViewById(R.id.nav_view1);
-
-        //Setting navigation item selected listener
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View header = navigationView.getHeaderView(0);
-
-        TextView nam = header.findViewById(R.id.nam);
-        TextView tid = header.findViewById(R.id.id);
-
-        nam.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " ");
-        tid.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
-        //Getting database referance
-        DatabaseReference myRef = database.getReference(intent.getStringExtra("Database Referance key"));
-
-        //Adding child event listener to the database referance
-        myRef.addChildEventListener(new ChildEventListener() {
+        ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                //Storing the child in a list object
+                // Getting the child from database and parsing it to list class object
                 List list = dataSnapshot.getValue(List.class);
 
-                //Adding the key of the child
+                // Setting up the key for the data in the list object
                 list.setKey(dataSnapshot.getKey());
 
-                // Adding child to data set
-                listStudents.add(list);
+                // Adding list object to the ArrayList of dataset
 
-                /*Adding dataSet change callback function to Adapter */
-                adapter.notifyDataSetChanged();
-                if (p.isShowing()) {
-                    p.dismiss();
+                headerList.add(list.getStudent_ID());
+
+                ArrayList<Pair<String,String>> str = new ArrayList<>();
+                if (show.equals("Attendance")) {
+
+                    for (HashMap.Entry<String, String> it : list.getAttendance().get(subject).entrySet()) {
+                        str.add(new Pair<>(it.getKey(),it.getValue()));
+                    }
+                    childList.put(list.getStudent_ID(),str);
+                } else if (show.equals("Marks")) {
+                    for (HashMap.Entry<String, String> it : list.getMarks().get(subject).entrySet()) {
+                        str.add(new Pair<>(it.getKey(),it.getValue()));
+                    }
+                    childList.put(list.getStudent_ID(),str);
                 }
-
+                /*Adding dataSet change callback function to Adapter*/
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -146,16 +117,19 @@ public class Marks extends AppCompatActivity
             }
         });
 
-        Button submit = findViewById(R.id.save);
-        submit.setOnClickListener(v -> {
-            adapter.notifySavePressed();
-            startActivity(new Intent(Marks.this,LoggedIn.class));
-            });
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout1);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -165,7 +139,6 @@ public class Marks extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.attendance, menu);
         return true;
@@ -180,33 +153,46 @@ public class Marks extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(Marks.this, SettingActivity.class));
+            startActivity(new Intent(AttendanceViewActivity.this,SettingActivity.class));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.attendance) {
-            Intent inte = new Intent(Marks.this, Attendance.class);
+
+            //Creating an Intent to Attendance activity
+            Intent in = new Intent(AttendanceViewActivity.this, Attendance.class);
 
             //Adding database referance key to the intent as extra information
-            inte.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
+            in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
 
             //Adding subject to be accessed in database to intent
-            inte.putExtra("Subject", intent.getStringExtra("Subject"));
+            in.putExtra("Subject", intent.getStringExtra("Subject"));
 
-            //Launching this intent
-            startActivity(inte);
+            //Launching intent
+            startActivity(in);
 
         } else if (id == R.id.marks) {
+
+            //Creating an Intent to Attendance activity
+            Intent in = new Intent(AttendanceViewActivity.this, Marks.class);
+
+            //Adding database referance key to the intent as extra information
+            in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
+
+            //Adding subject to be accessed in database to intent
+            in.putExtra("Subject", intent.getStringExtra("Subject"));
+
+            //Launching intent
+            startActivity(in);
 
         } else if (id == R.id.sigot) {
 
@@ -214,9 +200,9 @@ public class Marks extends AppCompatActivity
             FirebaseAuth.getInstance().signOut();
 
             //Launching login activity
-            startActivity(new Intent(Marks.this, MainActivity.class));
+            startActivity(new Intent(AttendanceViewActivity.this, MainActivity.class));
 
-            //Finishing this activity
+            //finishing this activity
             finish();
         } else if (id == R.id.ext) {
 
@@ -225,9 +211,9 @@ public class Marks extends AppCompatActivity
             homeIntent.addCategory(Intent.CATEGORY_HOME);
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(homeIntent);
-        }  else if (id == R.id.attendancevi) {
+        } else if (id == R.id.attendancevi) {
             //Creating an Intent to Attendance activity
-            Intent in = new Intent(Marks.this, AttendanceViewActivity.class);
+            Intent in = new Intent(AttendanceViewActivity.this, AttendanceViewActivity.class);
 
             //Adding database referance key to the intent as extra information
             in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
@@ -241,7 +227,7 @@ public class Marks extends AppCompatActivity
             startActivity(in);
         } else if (id == R.id.marksv) {
             //Creating an Intent to Attendance activity
-            Intent in = new Intent(Marks.this, AttendanceViewActivity.class);
+            Intent in = new Intent(AttendanceViewActivity.this, AttendanceViewActivity.class);
 
             //Adding database referance key to the intent as extra information
             in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
@@ -255,8 +241,7 @@ public class Marks extends AppCompatActivity
             startActivity(in);
         }
 
-        //Drawer layout default functionality
-        DrawerLayout drawer = findViewById(R.id.drawer_layout1);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

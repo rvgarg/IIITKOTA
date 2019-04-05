@@ -27,22 +27,31 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="38dp"
-            android:layout_height="47dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="15dp"
             android:contentDescription="TODO"
             app:srcCompat="@drawable/ic_person_black_24dp" />
 
-        <EditText
-            android:id="@+id/userid"
-            android:layout_width="313dp"
-            android:layout_height="47dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="UserId"
-            android:inputType="textEmailAddress"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColorHint="#FFFFFF"
+            app:boxStrokeColor="@android:color/holo_blue_bright"
+            app:boxStrokeWidth="2dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/userid"
+                android:layout_width="313dp"
+                android:layout_height="47dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="UserId"
+                android:inputType="textEmailAddress"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -53,22 +62,30 @@
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="38dp"
-            android:layout_height="47dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
             android:contentDescription="TODO"
             app:srcCompat="@drawable/ic_keyboard_black_24dp" />
 
-        <EditText
-            android:id="@+id/Password"
-            android:layout_width="317dp"
-            android:layout_height="53dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:textColor="#ffffff"
-            android:hint="password"
-            android:inputType="textPassword"
-            android:textColorHint="#ffffff" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColorHint="#FFFFFF"
+            app:passwordToggleDrawable="@drawable/ic_remove_red_eye_black_24dp"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/Password"
+                android:layout_width="317dp"
+                android:layout_height="53dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
 
@@ -80,7 +97,8 @@
         android:layout_marginTop="60dp"
         android:background="#000000"
         android:text="Login"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        app:rippleColor="@android:color/background_light" />
 
 
     <TextView

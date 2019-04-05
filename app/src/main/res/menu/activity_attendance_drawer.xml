@@ -7,20 +7,37 @@
         <item
             android:id="@+id/attendance"
             android:icon="@drawable/ic_person_pin"
-            android:title="Attendance"
+            android:title="Enter Attendance"
             tools:ignore="HardcodedText" />
+
+        <item
+            android:id="@+id/attendancevi"
+            android:icon="@drawable/ic_person_pin"
+            android:title="View Attendance"
+            tools:ignore="HardcodedText" />
+
         <item
             android:id="@+id/marks"
             android:icon="@drawable/ic_assignment_black"
-            android:title="Marks" />
+            android:title="Enter Marks"
+            tools:ignore="HardcodedText" />
+
+        <item
+            android:id="@+id/marksv"
+            android:icon="@drawable/ic_assignment_black"
+            android:title="View Marks"
+            tools:ignore="HardcodedText" />
+
         <item
             android:id="@+id/sigot"
             android:icon="@drawable/ic_sentiment_dissatisfied_black_24dp"
-            android:title="Sign Out" />
+            android:title="Sign Out"
+            tools:ignore="HardcodedText" />
         <item
             android:id="@+id/ext"
             android:icon="@drawable/ic_exit_to_app_black_24dp"
-            android:title="Exit" />
+            android:title="Exit"
+            tools:ignore="HardcodedText" />
     </group>
 
 </menu>

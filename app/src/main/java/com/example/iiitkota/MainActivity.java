@@ -3,6 +3,7 @@ package com.example.iiitkota;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.button.MaterialButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -107,72 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser currentUser) {
 //    if(Long.parseLong(String.valueOf(currentUser.getMetadata().getLastSignInTimestamp())) == NULL)
-        //Checking if the user is new or not
 
-        if (FirebaseAuth.getInstance().getCurrentUser().getMetadata().getLastSignInTimestamp() < FirebaseAuth.getInstance().getCurrentUser().getMetadata().getCreationTimestamp()) {
-
-            //Declaring 3 linear layout for building alert box to change password for time users
-            LinearLayout layout = new LinearLayout(this);
-            LinearLayout lpass = new LinearLayout(this);
-            LinearLayout lcnf = new LinearLayout(this);
-
-            //Declaring Alert dialog box
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            //Declaring EditTexts and TextViews for the alert dialog box
-            final EditText pass = new EditText(this);
-            final EditText cnf = new EditText(this);
-            final TextView tpass = new TextView(this);
-            final TextView tcnf = new TextView(this);
-
-            //setting linear layouts orientations
-            lpass.setOrientation(LinearLayout.HORIZONTAL);
-            lcnf.setOrientation(LinearLayout.HORIZONTAL);
-            layout.setOrientation(LinearLayout.VERTICAL);
-
-            //Setting input types on EditTexts
-            pass.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            cnf.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
-            //Setting text to the TextViews
-            tpass.setText("Enter Password");
-            tcnf.setText("Confirm Password");
-
-            //Adding TextViews and EditTexts to the following LinearLayouts
-            lpass.addView(tpass);
-            lpass.addView(pass);
-            lcnf.addView(tcnf);
-            lcnf.addView(cnf);
-
-            //Adding LinearLayouts to the root layout
-            layout.addView(lpass);
-            layout.addView(lcnf);
-
-            //Setting root layout to AlertDialog
-            builder.setView(layout);
-
-            //Adding the ok or positive button to the AlertDialog
-            builder.setPositiveButton("Ok", (dialog, which) -> {
-                String Pass = pass.getText().toString().trim(), Cnf = cnf.getText().toString().trim();
-
-                //Checking if both the passwords entered matches or not
-                if (Pass.equals(Cnf)) {
-                    currentUser.updatePassword(Pass)
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-
-                                    //Changing Activity after password is changed
-                                    Intent intent = new Intent(MainActivity.this, LoggedIn.class);
-                                    startActivity(intent);
-                                }
-                            });
-                } else {
-
-                    //Message to the user when passwords entered doesn't match
-                    Toast.makeText(this, "Password didnt match", Toast.LENGTH_LONG).show();
-                }
-            });
-        } else {
             if(!currentUser.getEmail().contains("20")) {
                 //Changing activity when user is old
                 Intent intent = new Intent(MainActivity.this, LoggedIn.class);
@@ -183,6 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }
+
     }
 }

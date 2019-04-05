@@ -20,6 +20,8 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.MyViewHolder
     private final String Subject;
     private final String Access;
     private final ArrayList<List> dataSet;
+    private HashMap<String,Integer> mark = new HashMap<>();
+    private boolean savePressed = false;
 
     //Declaring Constructor
     public MarksAdapter(ArrayList<List> mdataSet, String subject, String access) {
@@ -66,6 +68,7 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.MyViewHolder
         //Setting the corresponding values to the components
         myViewHolder.mId.setText(data.getStudent_ID());
         myViewHolder.mName.setText(data.getStudent_Name());
+        myViewHolder.present.setText("");
 
         //Setting up state change listener
         myViewHolder.present.setOnFocusChangeListener((v, hasFocus) -> {
@@ -81,8 +84,25 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.MyViewHolder
                     HashMap<String, String> sub = data.getMarks().get(Subject);
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Access).child(key).child("marks").child(Subject);
                     sub.put(new Date().toString(), "" + marks);
+                sub.remove("init");
                     ref.setValue(sub);
+                    mark.put(data.getStudent_Name(),marks);
+            }
+            if(savePressed){
+                int marks;
+                if (TextUtils.isEmpty(myViewHolder.present.getText().toString())) {
+                    marks = 0;
+                } else {
+                    marks = Integer.parseInt(myViewHolder.present.getText().toString().trim());
+                }
+                //Updating data to the database
+                String key = data.getKey();
+                HashMap<String, String> sub = data.getMarks().get(Subject);
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Access).child(key).child("marks").child(Subject);
+                sub.put(new Date().toString(), "" + marks);
+                ref.setValue(sub);
 
+                mark.put(data.getStudent_Name(),marks);
             }
         });
     }
@@ -90,5 +110,13 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.MyViewHolder
     @Override
     public int getItemCount() {
         return dataSet.size();
+    }
+
+    HashMap<String, Integer> getMark() {
+        return mark;
+    }
+
+    void notifySavePressed(){
+        savePressed = true;
     }
 }

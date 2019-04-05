@@ -43,6 +43,9 @@ public class StudentAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
+        if (dataList.get(this.dataHeader.get(groupPosition)).size() == 1){
+            return new Pair<>("No entry has ", "been done yet !!!");
+        }
         return dataList.get(this.dataHeader.get(groupPosition))
                 .get(childPosition);
     }
@@ -70,7 +73,7 @@ public class StudentAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.student, null);
         }
-        TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
@@ -80,12 +83,11 @@ public class StudentAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final Pair<String,String> childText = (Pair<String, String>) getChild(groupPosition,childPosition);
-
         if(convertView == null){
             LayoutInflater innfalInflator = (LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = innfalInflator.inflate(R.layout.item,null);
         }
-        TextView txtListChild = (TextView) convertView
+        TextView txtListChild = convertView
                 .findViewById(R.id.lblListItem);
         TextView txtChildPrecence = convertView.findViewById(R.id.lblPresence);
 

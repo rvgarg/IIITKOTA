@@ -17,9 +17,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="#ffffff"
-            android:background="#1C2AFC"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+            android:background="#8800ff"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:titleTextColor="#ffffff" />
 
     </FrameLayout>
 
@@ -42,8 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/yer"
                 android:textAllCaps="true"
                 android:textColor="#000000"
@@ -52,8 +52,8 @@
             <Spinner
                 android:id="@+id/year"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -69,8 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/sec"
                 android:textAllCaps="true"
                 android:textColor="#000000"
@@ -93,9 +93,9 @@
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="SUBJECT"
                 android:textColor="#000000"
@@ -109,15 +109,58 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/submit"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center
-"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
-            android:text="submit" />
+            <Button
+                android:id="@+id/enterMarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:text="Enter marks" />
+
+            <Button
+                android:id="@+id/enterAttandace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:text="Enter Attendance" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/viewMarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:text="View marks" />
+
+            <Button
+                android:id="@+id/viewAttendance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:text="View Attendance" />
+        </LinearLayout>
 
     </LinearLayout>
 

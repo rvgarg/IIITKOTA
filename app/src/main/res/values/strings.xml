@@ -12,4 +12,6 @@
     <string name="title_activity_marks">Marks</string>
     <string name="title_activity_student">StudentActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_analysis">AnalysisActivity</string>
+    <string name="title_activity_attendance_view">AttendanceViewActivity</string>
 </resources>

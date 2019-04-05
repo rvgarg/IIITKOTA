@@ -1,5 +1,6 @@
 package com.example.iiitkota;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,6 +80,12 @@ public class Attendance extends AppCompatActivity
         //Taking referance of the navigation view
         NavigationView navigationView = findViewById(R.id.nav_view);
 
+        ProgressDialog p = new ProgressDialog(this);
+        p.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        p.setMessage("Loading Data!!");
+        p.setCancelable(false);
+        p.show();
+
         //Setting up navigation item selected listener
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -107,6 +116,10 @@ public class Attendance extends AppCompatActivity
 
                 /*Adding dataSet change callback function to Adapter*/
                 adapter.notifyDataSetChanged();
+
+                if (p.isShowing()) {
+                    p.dismiss();
+                }
             }
 
             @Override
@@ -128,6 +141,18 @@ public class Attendance extends AppCompatActivity
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+        });
+
+        Button submit = findViewById(R.id.save);
+        submit.setOnClickListener(v -> {
+            int total = adapter.getTotalAttendance();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Total Attendance is " + total);
+            builder.setPositiveButton("Ok", (dialog, which) -> {
+                startActivity(new Intent(Attendance.this, LoggedIn.class));
+                finish();
+            });
+            builder.show();
         });
     }
 
@@ -160,6 +185,7 @@ public class Attendance extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(Attendance.this, SettingActivity.class));
             return true;
         }
 
@@ -188,8 +214,6 @@ public class Attendance extends AppCompatActivity
             //Launching intent
             startActivity(in);
 
-            //Finishing this activity
-            finish();
         } else if (id == R.id.sigot) {
 
             //Signing out the current user
@@ -207,6 +231,34 @@ public class Attendance extends AppCompatActivity
             homeIntent.addCategory(Intent.CATEGORY_HOME);
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(homeIntent);
+        }  else if (id == R.id.attendancevi) {
+            //Creating an Intent to Attendance activity
+            Intent in = new Intent(Attendance.this, AttendanceViewActivity.class);
+
+            //Adding database referance key to the intent as extra information
+            in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
+
+            //Adding subject to be accessed in database to intent
+            in.putExtra("Subject", intent.getStringExtra("Subject"));
+
+            in.putExtra("Show","Attendance");
+
+            //Launching intent
+            startActivity(in);
+        } else if (id == R.id.marksv) {
+            //Creating an Intent to Attendance activity
+            Intent in = new Intent(Attendance.this, AttendanceViewActivity.class);
+
+            //Adding database referance key to the intent as extra information
+            in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
+
+            //Adding subject to be accessed in database to intent
+            in.putExtra("Subject", intent.getStringExtra("Subject"));
+
+            in.putExtra("Show","Marks");
+
+            //Launching intent
+            startActivity(in);
         }
 
         //Setting up drawer layout default and compulsory response

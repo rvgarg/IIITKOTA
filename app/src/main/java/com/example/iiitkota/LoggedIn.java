@@ -107,7 +107,7 @@ public class LoggedIn extends AppCompatActivity {
         year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                            @Override
                                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                               if(year.getSelectedItemPosition() != 0){
+                                               if (year.getSelectedItemPosition() != 0) {
 
                                                    //Declaring and initializing array adapter for spinner
                                                    ArrayAdapter<CharSequence> Sections = ArrayAdapter.createFromResource(LoggedIn.this, R.array.section, android.R.layout.simple_spinner_item);
@@ -141,14 +141,15 @@ public class LoggedIn extends AppCompatActivity {
                 //Calling function to choose subject list
                 subChoser();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
         //Initializing and setting on click listener on the submit button
-        Button submit = findViewById(R.id.submit);
-        submit.setOnClickListener(v -> {
+        Button enterAttandance = findViewById(R.id.enterAttandace);
+        enterAttandance.setOnClickListener(v -> {
             if (subject.getSelectedItemPosition() != 0) {
 
                 //Declaring and initializing intent for attendance activity
@@ -158,13 +159,77 @@ public class LoggedIn extends AppCompatActivity {
                 intent.putExtra("Database Referance key", access);
 
                 //Adding the subject chosen by the user
-                intent.putExtra("Subject",subject.getSelectedItem().toString());
+                intent.putExtra("Subject", subject.getSelectedItem().toString());
 
                 //Launching intent
                 startActivity(intent);
 
-                //Finishing this activity
-                finish();
+            } else {
+                Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
+            }
+        });
+        Button enterMarks = findViewById(R.id.enterMarks);
+        enterMarks.setOnClickListener(v-> {
+            if (subject.getSelectedItemPosition() != 0) {
+
+                //Declaring and initializing intent for attendance activity
+                Intent intent = new Intent(LoggedIn.this, Marks.class);
+
+                //Adding database referance key name to the intent
+                intent.putExtra("Database Referance key", access);
+
+                //Adding the subject chosen by the user
+                intent.putExtra("Subject", subject.getSelectedItem().toString());
+
+                //Launching intent
+                startActivity(intent);
+
+            } else {
+                Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button viewAttendance = findViewById(R.id.viewAttendance);
+        viewAttendance.setOnClickListener(v -> {
+            if (subject.getSelectedItemPosition() != 0) {
+
+                //Declaring and initializing intent for attendance activity
+                Intent intent = new Intent(LoggedIn.this, AttendanceViewActivity.class);
+
+                //Adding database referance key name to the intent
+                intent.putExtra("Database Referance key", access);
+
+                //Adding the subject chosen by the user
+                intent.putExtra("Subject", subject.getSelectedItem().toString());
+
+                intent.putExtra("Show","Attendance");
+
+                //Launching intent
+                startActivity(intent);
+
+            } else {
+                Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button viewMarks = findViewById(R.id.viewMarks);
+        viewMarks.setOnClickListener(v -> {
+            if (subject.getSelectedItemPosition() != 0) {
+
+                //Declaring and initializing intent for attendance activity
+                Intent intent = new Intent(LoggedIn.this, AttendanceViewActivity.class);
+
+                //Adding database referance key name to the intent
+                intent.putExtra("Database Referance key", access);
+
+                //Adding the subject chosen by the user
+                intent.putExtra("Subject", subject.getSelectedItem().toString());
+
+                intent.putExtra("Show","Marks");
+
+                //Launching intent
+                startActivity(intent);
+
             } else {
                 Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
             }

@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -100,9 +98,7 @@ public class StudentActivity extends AppCompatActivity
         nam.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " ");
         tid.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -128,6 +124,7 @@ public class StudentActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.attendance, menu);
+
         return true;
     }
 
@@ -140,6 +137,7 @@ public class StudentActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(StudentActivity.this, SettingActivity.class));
             return true;
         }
 
@@ -188,7 +186,7 @@ public class StudentActivity extends AppCompatActivity
 
     public void prepChildListMarks() {
         HashMap<String, HashMap<String, String>> dat;
-        dat = data.getAttendance();
+        dat = data.getMarks();
         for (HashMap.Entry<String, HashMap<String, String>> it : dat.entrySet()) {
             ArrayList<Pair<String, String>> str = new ArrayList<>();
             for (HashMap.Entry<String, String> ht : it.getValue().entrySet()) {

@@ -1,7 +1,9 @@
 package com.example.iiitkota;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -26,7 +28,7 @@ public class forgotPassword extends AppCompatActivity {
         p.setMessage("Sending Email!!");
 
         //Getting referance of submit button from the layout file
-        Button submit = findViewById(R.id.subt);
+        MaterialButton submit = findViewById(R.id.subt);
 
         //Getting referance of email edit text
         email = findViewById(R.id.email);
@@ -47,6 +49,8 @@ public class forgotPassword extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 p.dismiss();
                                 Toast.makeText(forgotPassword.this, "Email Sent!!!", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(forgotPassword.this,MainActivity.class));
+                                finish();
                             } else {
                                 p.dismiss();
                                 Toast.makeText(forgotPassword.this, "Failed to send email!!!", Toast.LENGTH_LONG).show();

@@ -2,21 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Marks"
-    tools:showIn="@layout/app_bar_marks">
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/test"
-    android:hint="Enter Test Name"
-    android:inputType="text"
-    android:importantForAutofill="no" />
-    <android.support.v7.widget.RecyclerView
+    tools:context=".AttendanceViewActivity"
+    tools:showIn="@layout/app_bar_attendance_view">
+
+    <ExpandableListView
+        android:id="@+id/expstu"
+        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
-        android:id="@+id/marksrecycler"
         android:layout_height="match_parent"/>
 </LinearLayout>

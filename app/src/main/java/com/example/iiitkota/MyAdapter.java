@@ -2,6 +2,7 @@ package com.example.iiitkota;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private final String Subject;
     private final String Access;
     private final ArrayList<List> dataSet;
+    private int totalAttendance = 0;
 
     public MyAdapter(ArrayList<List> mdataSet, String subject, String access) {
         dataSet = mdataSet;
@@ -30,7 +32,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         // each data item is just a string in this case
         final TextView mName;
         final TextView mId;
-        final Switch present;
+        final SwitchCompat present;
 
         MyViewHolder(View parent) {
             super(parent);
@@ -53,16 +55,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         List data = dataSet.get(i);
         myViewHolder.mId.setText(data.getStudent_ID());
         myViewHolder.mName.setText(data.getStudent_Name());
+        myViewHolder.present.setChecked(false);
         myViewHolder.present.setOnCheckedChangeListener((buttonView, isChecked) -> {
             String key = data.getKey();
+            HashMap<String,String> sub;
+            if(data.getAttendance() == null){
+                sub = new HashMap<>();
+            } else{
+                sub = data.getAttendance().get(Subject);
+                sub.remove("init");
+            }
 
-            HashMap<String, String> sub = data.getAttendance().get(Subject);
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Access).child(key).child("attendance").child(Subject);
             if (isChecked) {
+                totalAttendance++;
                 sub.put(new Date().toString(), "Present");
             } else {
 
-
+                totalAttendance--;
                 sub.put(new Date().toString(), "NotPresent");
             }
             ref.setValue(sub);
@@ -72,5 +82,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public int getItemCount() {
         return dataSet.size();
+    }
+
+    public int getTotalAttendance() {
+        return totalAttendance;
     }
 }

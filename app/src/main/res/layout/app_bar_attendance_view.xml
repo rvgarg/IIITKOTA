@@ -4,23 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Marks">
+    tools:context=".AttendanceViewActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar1"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#1C2AFC"
-            app:titleTextColor="#ffffff"
-            app:popupTheme="@style/PopupOverlay" />
+            android:background="#8800ff"
+            app:popupTheme="@style/PopupOverlay"
+            app:titleTextColor="#ffffff" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_attendance" />
+    <include layout="@layout/content_attendance_view" />
 
 
 </android.support.design.widget.CoordinatorLayout>

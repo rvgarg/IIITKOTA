@@ -2,6 +2,7 @@ package com.example.iiitkota;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,11 +14,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoggedIn extends AppCompatActivity {
 
@@ -28,6 +33,7 @@ public class LoggedIn extends AppCompatActivity {
     private Spinner section;
     private String access;
     private NavigationView nav_View;
+    private LinearLayout Main, Fabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +48,23 @@ public class LoggedIn extends AppCompatActivity {
         //Initializing the navigation view
         nav_View = findViewById(R.id.nav_view);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         View header = nav_View.getHeaderView(0);
 
         TextView nam = header.findViewById(R.id.nam);
         TextView tid = header.findViewById(R.id.id);
+        ImageView proPic = header.findViewById(R.id.imageView);
 
-        nam.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " ");
-        tid.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
+            Glide.with(this).load(user.getPhotoUrl()).placeholder(R.drawable.ic_person_recycle_24dp).into(proPic);
+
+        nam.setText(user.getDisplayName() + " ");
+        tid.setText(user.getEmail());
 
         //Setting up the listener on navigation view
         nav_View.setNavigationItemSelectedListener(menuItem -> {
-            menuItem.setChecked(true);
+//            menuItem.setChecked(true);
             int id = menuItem.getItemId();
             switch (id) {
                 case R.id.logout:
@@ -82,6 +94,9 @@ public class LoggedIn extends AppCompatActivity {
         year = findViewById(R.id.year);
         section = findViewById(R.id.section);
         subject = findViewById(R.id.subject);
+
+        Main = findViewById(R.id.main);
+        Fabs = findViewById(R.id.fabs);
 
         //Setting up toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -147,8 +162,22 @@ public class LoggedIn extends AppCompatActivity {
             }
         });
 
+        Button Next = findViewById(R.id.next);
+        Next.setOnClickListener(v -> {
+            if (year.getSelectedItemPosition() != 0) {
+                if (subject.getSelectedItemPosition() != 0) {
+                    Main.setVisibility(View.GONE);
+                    Fabs.setVisibility(View.VISIBLE);
+                } else {
+                    Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, "Please select a year !!!", Toast.LENGTH_LONG).show();
+            }
+        });
+
         //Initializing and setting on click listener on the submit button
-        Button enterAttandance = findViewById(R.id.enterAttandace);
+        FloatingActionButton enterAttandance = findViewById(R.id.enterAttandace);
         enterAttandance.setOnClickListener(v -> {
             if (subject.getSelectedItemPosition() != 0) {
 
@@ -168,8 +197,8 @@ public class LoggedIn extends AppCompatActivity {
                 Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
             }
         });
-        Button enterMarks = findViewById(R.id.enterMarks);
-        enterMarks.setOnClickListener(v-> {
+        FloatingActionButton enterMarks = findViewById(R.id.enterMarks);
+        enterMarks.setOnClickListener(v -> {
             if (subject.getSelectedItemPosition() != 0) {
 
                 //Declaring and initializing intent for attendance activity
@@ -189,7 +218,7 @@ public class LoggedIn extends AppCompatActivity {
             }
         });
 
-        Button viewAttendance = findViewById(R.id.viewAttendance);
+        FloatingActionButton viewAttendance = findViewById(R.id.viewAttendance);
         viewAttendance.setOnClickListener(v -> {
             if (subject.getSelectedItemPosition() != 0) {
 
@@ -202,7 +231,7 @@ public class LoggedIn extends AppCompatActivity {
                 //Adding the subject chosen by the user
                 intent.putExtra("Subject", subject.getSelectedItem().toString());
 
-                intent.putExtra("Show","Attendance");
+                intent.putExtra("Show", "Attendance");
 
                 //Launching intent
                 startActivity(intent);
@@ -212,7 +241,8 @@ public class LoggedIn extends AppCompatActivity {
             }
         });
 
-        Button viewMarks = findViewById(R.id.viewMarks);
+
+        FloatingActionButton viewMarks = findViewById(R.id.viewMarks);
         viewMarks.setOnClickListener(v -> {
             if (subject.getSelectedItemPosition() != 0) {
 
@@ -225,7 +255,7 @@ public class LoggedIn extends AppCompatActivity {
                 //Adding the subject chosen by the user
                 intent.putExtra("Subject", subject.getSelectedItem().toString());
 
-                intent.putExtra("Show","Marks");
+                intent.putExtra("Show", "Marks");
 
                 //Launching intent
                 startActivity(intent);
@@ -317,6 +347,16 @@ public class LoggedIn extends AppCompatActivity {
                         break;
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Main.getVisibility() == View.GONE) {
+            Main.setVisibility(View.VISIBLE);
+            Fabs.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
         }
     }
 }

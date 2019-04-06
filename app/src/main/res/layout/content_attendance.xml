@@ -10,7 +10,6 @@
     tools:showIn="@layout/app_bar_attendance">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:animateLayoutChanges="true"
         android:id="@+id/recycler"
         android:layout_weight="9"
         android:layout_height="0dp"/>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:shownIn="navigation_view">
 
-        <group android:checkableBehavior="single">
+        <group >
 
             <item
                 android:id="@+id/logout"

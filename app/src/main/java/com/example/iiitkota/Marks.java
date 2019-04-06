@@ -18,9 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +37,8 @@ public class Marks extends AppCompatActivity
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private ArrayList<List> listStudents = new ArrayList<>();
     private Intent intent;
-
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseUser user ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,8 @@ public class Marks extends AppCompatActivity
         p.setMessage("Loading Data!!");
         p.setCancelable(false);
         p.show();
+
+        user = mAuth.getCurrentUser();
 
         //Declaring and initializing recycler view
         RecyclerView recyclerView = findViewById(R.id.recycler);
@@ -94,9 +100,13 @@ public class Marks extends AppCompatActivity
 
         TextView nam = header.findViewById(R.id.nam);
         TextView tid = header.findViewById(R.id.id);
+        ImageView imageView = header.findViewById(R.id.imageView);
 
-        nam.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " ");
-        tid.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        if (user.getPhotoUrl() != null)
+            Glide.with(this).load(user.getPhotoUrl()).placeholder(R.drawable.ic_person_recycle_24dp).into(imageView);
+
+        nam.setText(user.getDisplayName() + " ");
+        tid.setText(user.getEmail());
 
         //Getting database referance
         DatabaseReference myRef = database.getReference(intent.getStringExtra("Database Referance key"));
@@ -147,8 +157,8 @@ public class Marks extends AppCompatActivity
         Button submit = findViewById(R.id.save);
         submit.setOnClickListener(v -> {
             adapter.notifySavePressed();
-            startActivity(new Intent(Marks.this,LoggedIn.class));
-            });
+            startActivity(new Intent(Marks.this, LoggedIn.class));
+        });
     }
 
     @Override
@@ -223,7 +233,7 @@ public class Marks extends AppCompatActivity
             homeIntent.addCategory(Intent.CATEGORY_HOME);
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(homeIntent);
-        }  else if (id == R.id.attendancevi) {
+        } else if (id == R.id.attendancevi) {
             //Creating an Intent to Attendance activity
             Intent in = new Intent(Marks.this, AttendanceViewActivity.class);
 
@@ -233,7 +243,7 @@ public class Marks extends AppCompatActivity
             //Adding subject to be accessed in database to intent
             in.putExtra("Subject", intent.getStringExtra("Subject"));
 
-            in.putExtra("Show","Attendance");
+            in.putExtra("Show", "Attendance");
 
             //Launching intent
             startActivity(in);
@@ -247,7 +257,7 @@ public class Marks extends AppCompatActivity
             //Adding subject to be accessed in database to intent
             in.putExtra("Subject", intent.getStringExtra("Subject"));
 
-            in.putExtra("Show","Marks");
+            in.putExtra("Show", "Marks");
 
             //Launching intent
             startActivity(in);

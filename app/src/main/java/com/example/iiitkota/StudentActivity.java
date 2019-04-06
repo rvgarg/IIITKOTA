@@ -15,9 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,6 +67,7 @@ public class StudentActivity extends AppCompatActivity
         id = "K" + id.toUpperCase();
 
         mRef = database.getReference(ref);
+        mRef.keepSynced(true);
         mRef.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -94,10 +98,14 @@ public class StudentActivity extends AppCompatActivity
 
         TextView nam = header.findViewById(R.id.nam);
         TextView tid = header.findViewById(R.id.id);
+        ImageView proPic = header.findViewById(R.id.imageView);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
+            Glide.with(this).load(user.getPhotoUrl()).placeholder(R.drawable.ic_person_recycle_24dp).into(proPic);
 
         nam.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " ");
         tid.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

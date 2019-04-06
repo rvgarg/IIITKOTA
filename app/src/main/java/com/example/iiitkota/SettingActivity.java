@@ -42,10 +42,10 @@ public class SettingActivity extends AppCompatActivity {
         storageReference = storage.getReference(user.getUid() + "/profilePicture");
 
         profilePic = findViewById(R.id.img);
+
+
         edit = findViewById(R.id.edit);
         edit.setOnClickListener(v -> {
-
-
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             if (intent.resolveActivity(getPackageManager()) != null) {
@@ -53,66 +53,91 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+
         if (user.getPhotoUrl() != null)
             Glide.with(this).load(user.getPhotoUrl()).placeholder(R.drawable.ic_person_recycle_24dp).into(profilePic);
+
+
         TextInputEditText mDisplayName, mMobileNumber, nPass, cPass;
         mDisplayName = findViewById(R.id.dispName);
         mMobileNumber = findViewById(R.id.mobNumber);
         nPass = findViewById(R.id.newPass);
         cPass = findViewById(R.id.newPassre);
+
+        Button submit = findViewById(R.id.su);
+
         mDisplayName.setFocusableInTouchMode(false);
         mMobileNumber.setFocusableInTouchMode(false);
+
+
         mDisplayName.setText(user.getDisplayName());
         mMobileNumber.setText(user.getPhoneNumber());
+
+
         Button changePassword = findViewById(R.id.passChange);
         Button save = findViewById(R.id.sav);
+
+
         if (!mDisplayName.isFocusableInTouchMode())
             mDisplayName.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
                 builder.setTitle("Do you want to edit your name?");
                 builder.setPositiveButton("Yes", ((dialog, which) -> {
-//
                     mDisplayName.setFocusableInTouchMode(true);
                     mDisplayName.requestFocus();
                 })).setNegativeButton("No", ((dialog, which) -> mDisplayName.setFocusableInTouchMode(false))).show();
             });
+
         if (!mMobileNumber.isFocusableInTouchMode())
             mMobileNumber.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
                 builder.setTitle("Do you want to edit your mobile number?");
                 builder.setPositiveButton("Yes", ((dialog, which) -> {
-
                     mMobileNumber.setFocusableInTouchMode(true);
                     mMobileNumber.requestFocus();
                 })).setNegativeButton("No", ((dialog, which) -> mDisplayName.setFocusableInTouchMode(false))).show();
             });
+
+        //Setting up on click listener on change password button
         changePassword.setOnClickListener(v -> {
+            //Declaring and initializing textinputlayouts
             TextInputLayout lnPass, lcPass;
             lnPass = findViewById(R.id.lnewPass);
             lcPass = findViewById(R.id.lnewPassre);
+
+
             lnPass.setVisibility(View.VISIBLE);
             lcPass.setVisibility(View.VISIBLE);
             nPass.setVisibility(View.VISIBLE);
             cPass.setVisibility(View.VISIBLE);
             changePassword.setVisibility(View.GONE);
+            submit.setVisibility(View.VISIBLE);
+            save.setVisibility(View.GONE);
         });
-        Button submit;
-        submit = findViewById(R.id.su);
+
         submit.setOnClickListener(v -> {
             String np, cp;
             np = nPass.getText().toString();
             cp = cPass.getText().toString();
+
             if (TextUtils.isEmpty(np) || TextUtils.isEmpty(cp)) {
                 Toast.makeText(this, "Enter the new password", Toast.LENGTH_LONG).show();
             } else if (!np.equals(cp)) {
                 Toast.makeText(this, "Entered passwords doesn't match", Toast.LENGTH_LONG).show();
             } else {
-                user.updatePassword(np);
-                Toast.makeText(this, "Password updated !!!", Toast.LENGTH_LONG).show();
+                user.updatePassword(np).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(SettingActivity.this, "Password updated !!!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(SettingActivity.this, "Failed to update password!!!", Toast.LENGTH_LONG).show();
+                    }
+                });
+
             }
         });
         save.setOnClickListener(v -> {
             String name = mDisplayName.getText().toString();
+
             UserProfileChangeRequest profileUpdates;
             if (!TextUtils.isEmpty(name)) {
                 profileUpdates = new UserProfileChangeRequest.Builder()
@@ -151,7 +176,8 @@ public class SettingActivity extends AppCompatActivity {
                 storageReference = storageReference.child(fullPhotoUri.getLastPathSegment());
             storageReference.putFile(fullPhotoUri).continueWithTask(task -> {
                 if (!task.isSuccessful()) {
-                    throw task.getException();
+                    if (task.getException() != null)
+                        throw task.getException();
                 }
                 return storageReference.getDownloadUrl();
             }).addOnCompleteListener(task -> {
@@ -160,6 +186,7 @@ public class SettingActivity extends AppCompatActivity {
                     if (downloadUri == null) {
                         return;
                     }
+
                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setPhotoUri(downloadUri).build();
                     user.updateProfile(profileChangeRequest).addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
@@ -169,8 +196,6 @@ public class SettingActivity extends AppCompatActivity {
                         }
                     });
                 }
-
-
             }).addOnFailureListener(e -> Toast.makeText(SettingActivity.this, "Failed to update profile picture!!!", Toast.LENGTH_LONG).show());
         }
     }

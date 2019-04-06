@@ -55,24 +55,40 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         myViewHolder.mId.setText(data.getStudent_ID());
         myViewHolder.mName.setText(data.getStudent_Name());
         myViewHolder.present.setChecked(false);
-        myViewHolder.present.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            String key = data.getKey();
-            HashMap<String,String> sub;
-            if(data.getAttendance() == null){
-                sub = new HashMap<>();
-            } else{
-                sub = data.getAttendance().get(Subject);
-                sub.remove("init");
+        String key = data.getKey();
+        boolean updated = false;
+        HashMap<String, String> sub;
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Access).child(key).child("attendance").child(Subject);
+        if (data.getAttendance() == null) {
+            sub = new HashMap<>();
+            sub.put("total_classes", "1");
+        } else {
+            sub = data.getAttendance().get(Subject);
+            sub.remove("init");
+            if (sub.get("total_classes") == null) {
+                sub.put("total_classes", "1");
+            } else {
+                if (!updated) {
+                    int tc = Integer.parseInt(sub.get("total_classes"));
+                    tc++;
+                    sub.put("total_classes", tc + "");
+                    updated = true;
+                }
             }
-
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(Access).child(key).child("attendance").child(Subject);
+        }
+        ref.setValue(sub);
+        myViewHolder.present.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 totalAttendance++;
                 sub.put(new Date().toString(), "Present");
             } else {
 
                 totalAttendance--;
-                sub.put(new Date().toString(), "NotPresent");
+                for (HashMap.Entry<String, String> it : sub.entrySet()) {
+                    if (it.getKey().substring(0, 10).equals(new Date().toString().substring(0, 10))) {
+                        it.setValue(null);
+                    }
+                }
             }
             ref.setValue(sub);
         });

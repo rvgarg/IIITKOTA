@@ -23,25 +23,24 @@
 
     </FrameLayout>
 
+
     <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="100dp"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-
-            android:orientation="horizontal">
-
-
+            android:orientation="horizontal"
+            android:layout_marginTop="26dp"
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/yer"
@@ -51,19 +50,16 @@
 
             <Spinner
                 android:id="@+id/year"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
+                android:layout_height="wrap_content" />
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-
-            android:orientation="horizontal">
-
+            android:layout_marginTop="26dp">
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
@@ -78,18 +74,17 @@
 
             <Spinner
                 android:id="@+id/section"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
-
+            android:orientation="horizontal"
+            android:layout_marginTop="26dp">
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
@@ -106,62 +101,125 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="next" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fabs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="90dp"
+                android:layout_marginTop="60dp"
+                android:orientation="vertical">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/enterAttandace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_check_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Attendance" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="60dp"
+                android:orientation="vertical">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/viewAttendance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_check_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Attendance" />
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/enterMarks"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:text="Enter marks" />
+                android:layout_marginStart="110dp"
+                android:layout_marginBottom="60dp"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/enterAttandace"
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/enterMarks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_check_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter Marks" />
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:text="Enter Attendance" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/viewMarks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:text="View marks" />
-
-            <Button
-                android:id="@+id/viewAttendance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="70dp"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:text="View Attendance" />
-        </LinearLayout>
+                android:layout_marginBottom="60dp"
+                android:orientation="vertical">
 
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/viewMarks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_check_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Marks" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -172,5 +230,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_attendance"
         app:menu="@menu/drawer_view" />
+
 
 </android.support.v4.widget.DrawerLayout>

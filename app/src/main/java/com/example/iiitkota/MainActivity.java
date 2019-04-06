@@ -3,6 +3,8 @@ package com.example.iiitkota;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -85,10 +87,39 @@ public class MainActivity extends AppCompatActivity {
 
         //Applying on click listener to the forgot password textview
         frgt.setOnClickListener(v -> {
+            BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
+            dialog.setContentView(R.layout.activity_forgot_password);
+            dialog.setTitle("Forgot Password?");
+            dialog.findViewById(R.id.subt).setOnClickListener(v1 -> {
+                p.setMessage("Sending Email!!");
+                p.show();
+                EditText em = dialog.findViewById(R.id.email);
+                String eMail = em.getText().toString().trim();
+                if (!TextUtils.isEmpty(eMail)) {
 
+                    //Sending password reset link
+                    mAuth.sendPasswordResetEmail(eMail)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    p.dismiss();
+                                    Toast.makeText(MainActivity.this, "Email Sent!!!", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+                                    finish();
+                                } else {
+                                    p.dismiss();
+                                    Toast.makeText(MainActivity.this, "Failed to send email!!!", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                } else {
+                    p.dismiss();
+                    Toast.makeText(MainActivity.this, "Enter registered Email Address !!", Toast.LENGTH_LONG).show();
+                }
+
+            });
             //Changing activity to the forgot password activity
-            Intent intent = new Intent(MainActivity.this, forgotPassword.class);
-            startActivity(intent);
+//            Intent intent = new Intent(MainActivity.this, forgotPassword.class);
+//            startActivity(intent);
+            dialog.show();
         });
     }
 
@@ -105,16 +136,16 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser currentUser) {
 //    if(Long.parseLong(String.valueOf(currentUser.getMetadata().getLastSignInTimestamp())) == NULL)
 
-            if(!currentUser.getEmail().contains("20")) {
-                //Changing activity when user is old
-                Intent intent = new Intent(MainActivity.this, LoggedIn.class);
-                startActivity(intent);
-                finish();
-            } else {
-                Intent intent = new Intent(MainActivity.this, StudentActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        if (!currentUser.getEmail().contains("20")) {
+            //Changing activity when user is old
+            Intent intent = new Intent(MainActivity.this, LoggedIn.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = new Intent(MainActivity.this, StudentActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
     }
 }

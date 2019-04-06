@@ -46,6 +46,8 @@ class StudentAdapter extends BaseExpandableListAdapter {
     public Object getChild(int groupPosition, int childPosition) {
         if (dataList.get(this.dataHeader.get(groupPosition)).size() == 1){
             return new Pair<>("No entry has ", "been done yet !!!");
+        } else if (this.dataList.get(this.dataHeader.get(groupPosition)).get(childPosition).first.equals("init")){
+            return new Pair<>("","");
         }
         return dataList.get(this.dataHeader.get(groupPosition))
                 .get(childPosition);

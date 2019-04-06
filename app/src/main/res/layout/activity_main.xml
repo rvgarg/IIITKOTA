@@ -64,7 +64,7 @@
             android:layout_width="38dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:contentDescription="TODO"
             app:srcCompat="@drawable/ic_keyboard_black_24dp" />
 
@@ -72,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColorHint="#FFFFFF"
+            app:passwordToggleTint="#FFFFFFFF"
             app:passwordToggleDrawable="@drawable/ic_remove_red_eye_black_24dp"
             app:passwordToggleEnabled="true">
 

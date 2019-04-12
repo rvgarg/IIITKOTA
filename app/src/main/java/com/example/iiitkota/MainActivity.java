@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -116,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             });
-            //Changing activity to the forgot password activity
-//            Intent intent = new Intent(MainActivity.this, forgotPassword.class);
-//            startActivity(intent);
             dialog.show();
         });
     }
@@ -135,17 +131,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser currentUser) {
 //    if(Long.parseLong(String.valueOf(currentUser.getMetadata().getLastSignInTimestamp())) == NULL)
-
-        if (!currentUser.getEmail().contains("20")) {
-            //Changing activity when user is old
-            Intent intent = new Intent(MainActivity.this, LoggedIn.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Intent intent = new Intent(MainActivity.this, StudentActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        if (currentUser != null)
+            if (!currentUser.getEmail().contains("20")) {
+                //Changing activity when user is old
+                Intent intent = new Intent(MainActivity.this, LoggedIn.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(MainActivity.this, StudentActivity.class);
+                startActivity(intent);
+                finish();
+            }
 
     }
 }

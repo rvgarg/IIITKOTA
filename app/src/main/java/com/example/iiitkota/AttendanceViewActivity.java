@@ -201,8 +201,6 @@ public class AttendanceViewActivity extends AppCompatActivity
 
             //Launching login activity
             startActivity(new Intent(AttendanceViewActivity.this, MainActivity.class));
-
-            //finishing this activity
             finish();
         } else if (id == R.id.ext) {
 

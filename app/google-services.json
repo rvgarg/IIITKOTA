@@ -8,6 +8,80 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:586506446164:android:3450026db123264b",
+        "android_client_info": {
+          "package_name": "com.example.adminiiitkota"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586506446164-9ic55iqc1vef3a2mu41igip7ek8ja264.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.adminiiitkota",
+            "certificate_hash": "69f028d8ef496aa89c813a49300ba5569e28e356"
+          }
+        },
+        {
+          "client_id": "586506446164-j8b9lq8b5cf4g86dikbadep46crlkgdu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV3cZvSXwqvaY_jJunJe-dQqv4DMiB4MM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586506446164-j8b9lq8b5cf4g86dikbadep46crlkgdu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586506446164:android:28dc363882eb973a",
+        "android_client_info": {
+          "package_name": "com.example.barcodereader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586506446164-24ut8akpl674e47b1crif39mbnc793l9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.barcodereader",
+            "certificate_hash": "69f028d8ef496aa89c813a49300ba5569e28e356"
+          }
+        },
+        {
+          "client_id": "586506446164-j8b9lq8b5cf4g86dikbadep46crlkgdu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV3cZvSXwqvaY_jJunJe-dQqv4DMiB4MM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586506446164-j8b9lq8b5cf4g86dikbadep46crlkgdu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:586506446164:android:115313376f0154af",
         "android_client_info": {
           "package_name": "com.example.iiitkota"
@@ -33,20 +107,50 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "586506446164-j8b9lq8b5cf4g86dikbadep46crlkgdu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586506446164:android:17eb9bf99508f7c0",
+        "android_client_info": {
+          "package_name": "com.example.student"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586506446164-725ocbotkephbg5qg2kjgjdqe924c1nf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.student",
+            "certificate_hash": "69f028d8ef496aa89c813a49300ba5569e28e356"
+          }
         },
-        "ads_service": {
-          "status": 2
+        {
+          "client_id": "586506446164-j8b9lq8b5cf4g86dikbadep46crlkgdu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV3cZvSXwqvaY_jJunJe-dQqv4DMiB4MM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586506446164-j8b9lq8b5cf4g86dikbadep46crlkgdu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -1,9 +1,15 @@
 package com.example.iiitkota;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -39,7 +46,7 @@ public class StudentActivity extends AppCompatActivity
     private ArrayList<String> headerList = new ArrayList<>();
     private HashMap<String, ArrayList<Pair<String, String>>> childListAttendance = new HashMap<>();
     private HashMap<String, ArrayList<Pair<String, String>>> childListMarks = new HashMap<>();
-
+    private boolean cncled = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,9 @@ public class StudentActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        if (!cncled)
+            netChk();
 
         ProgressDialog p = new ProgressDialog(this);
         p.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -201,6 +211,46 @@ public class StudentActivity extends AppCompatActivity
                 str.add(new Pair<>(ht.getKey(), ht.getValue()));
             }
             childListMarks.put(it.getKey(), str);
+        }
+    }
+    public void netChk(){
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        Boolean isWifiConn = false;
+        Boolean isMobileConn = false;
+        for (Network network : connMgr.getAllNetworks()) {
+            NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
+            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                isWifiConn |= networkInfo.isConnected();
+            }
+            if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                isMobileConn |= networkInfo.isConnected();
+            }
+        }
+        if (isMobileConn || isWifiConn)
+            new NetworkCheck(StudentActivity.this).execute(isWifiConn, isMobileConn);
+        else {
+            BottomSheetDialog dialog = new BottomSheetDialog(StudentActivity.this);
+            dialog.setContentView(R.layout.connection_manager);
+            dialog.setTitle("Not Connected ???");
+            dialog.findViewById(R.id.btncancel).setOnClickListener(v -> {
+                dialog.dismiss();
+            });
+            dialog.findViewById(R.id.btnsubt).setOnClickListener(v -> {
+                boolean mobile, wifi;
+                mobile = ((Switch) dialog.findViewById(R.id.mobileDataState)).isChecked();
+                wifi = ((Switch) dialog.findViewById(R.id.wifiState)).isChecked();
+                if (wifi) {
+                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    wifiManager.setWifiEnabled(true);
+                }
+                if (mobile) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.setClassName("com.android.phone", "com.android.phone.NetworkSetting");
+                    startActivity(intent);
+                }
+            });
+            dialog.show();
         }
     }
 }

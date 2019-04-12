@@ -157,6 +157,8 @@ public class Marks extends AppCompatActivity
         Button submit = findViewById(R.id.save);
         submit.setOnClickListener(v -> {
             adapter.notifySavePressed();
+            submit.requestFocus();
+
             startActivity(new Intent(Marks.this, LoggedIn.class));
         });
     }

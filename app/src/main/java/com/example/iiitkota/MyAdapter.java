@@ -3,6 +3,7 @@ package com.example.iiitkota;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private final String Access;
     private final ArrayList<List> dataSet;
     private int totalAttendance = 0;
+    HashMap<String, String> dat = new HashMap<>();
 
     public MyAdapter(ArrayList<List> mdataSet, String subject, String access) {
         dataSet = mdataSet;
@@ -80,17 +82,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         myViewHolder.present.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 totalAttendance++;
-                sub.put(new Date().toString(), "Present");
+                dat.put(data.getKey(), "Present");
             } else {
 
                 totalAttendance--;
-                for (HashMap.Entry<String, String> it : sub.entrySet()) {
-                    if (it.getKey().substring(0, 10).equals(new Date().toString().substring(0, 10))) {
-                        it.setValue(null);
-                    }
-                }
+                dat.put(data.getKey(), "Absent");
             }
-            ref.setValue(sub);
+
         });
     }
 
@@ -101,5 +99,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public int getTotalAttendance() {
         return totalAttendance;
+    }
+
+    void notifySavePressed() {
+        for (HashMap.Entry<String, String> it : dat.entrySet()) {
+
+            FirebaseDatabase.getInstance().getReference().child(Access).child(it.getKey()).child("attendance").child(Subject).child(new Date().toString()).setValue(it.getValue());
+        }
+
+        Log.e("chk", "save pressed");
+
     }
 }

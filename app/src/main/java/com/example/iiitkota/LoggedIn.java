@@ -1,7 +1,13 @@
 package com.example.iiitkota;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +41,14 @@ public class LoggedIn extends AppCompatActivity {
     private String access;
     private NavigationView nav_View;
     private LinearLayout Main, Fabs;
+    private boolean cncled = false;
+
+    @Override
+    protected void onResume() {
+        if (!cncled)
+            netChk();
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +56,8 @@ public class LoggedIn extends AppCompatActivity {
         setContentView(R.layout.activity_logged_in);
         //Initializing the drawer layout
         drawerLayout = findViewById(R.id.drawer);
+        if (!cncled)
+            netChk();
 
         //Getting firebase authentication instance
         mAuth = FirebaseAuth.getInstance();
@@ -357,6 +374,47 @@ public class LoggedIn extends AppCompatActivity {
             Fabs.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    public void netChk() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        Boolean isWifiConn = false;
+        Boolean isMobileConn = false;
+        for (Network network : connMgr.getAllNetworks()) {
+            NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
+            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                isWifiConn |= networkInfo.isConnected();
+            }
+            if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                isMobileConn |= networkInfo.isConnected();
+            }
+        }
+        if (isMobileConn || isWifiConn)
+            new NetworkCheck(LoggedIn.this).execute(isWifiConn, isMobileConn);
+        else {
+            BottomSheetDialog dialog = new BottomSheetDialog(LoggedIn.this);
+            dialog.setContentView(R.layout.connection_manager);
+            dialog.setTitle("Not Connected ???");
+            dialog.findViewById(R.id.btncancel).setOnClickListener(v -> {
+                dialog.dismiss();
+            });
+            dialog.findViewById(R.id.btnsubt).setOnClickListener(v -> {
+                boolean mobile, wifi;
+                mobile = ((Switch) dialog.findViewById(R.id.mobileDataState)).isChecked();
+                wifi = ((Switch) dialog.findViewById(R.id.wifiState)).isChecked();
+                if (wifi) {
+                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    wifiManager.setWifiEnabled(true);
+                }
+                if (mobile) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.setClassName("com.android.phone", "com.android.phone.NetworkSetting");
+                    startActivity(intent);
+                }
+            });
+            dialog.show();
         }
     }
 }

@@ -152,6 +152,7 @@ public class Attendance extends AppCompatActivity
                 startActivity(new Intent(Attendance.this, LoggedIn.class));
                 finish();
             });
+            adapter.notifySavePressed();
             builder.show();
         });
     }
@@ -231,7 +232,7 @@ public class Attendance extends AppCompatActivity
             homeIntent.addCategory(Intent.CATEGORY_HOME);
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(homeIntent);
-        }  else if (id == R.id.attendancevi) {
+        } else if (id == R.id.attendancevi) {
             //Creating an Intent to Attendance activity
             Intent in = new Intent(Attendance.this, AttendanceViewActivity.class);
 
@@ -241,7 +242,7 @@ public class Attendance extends AppCompatActivity
             //Adding subject to be accessed in database to intent
             in.putExtra("Subject", intent.getStringExtra("Subject"));
 
-            in.putExtra("Show","Attendance");
+            in.putExtra("Show", "Attendance");
 
             //Launching intent
             startActivity(in);
@@ -255,7 +256,7 @@ public class Attendance extends AppCompatActivity
             //Adding subject to be accessed in database to intent
             in.putExtra("Subject", intent.getStringExtra("Subject"));
 
-            in.putExtra("Show","Marks");
+            in.putExtra("Show", "Marks");
 
             //Launching intent
             startActivity(in);

@@ -1,67 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/m_parent"
+<android.support.design.circularreveal.cardview.CircularRevealCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
     android:background="?android:attr/selectableItemBackground"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="12dp">
-
-    <ImageView
-        android:id="@+id/img_user"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="#16000000"
-        android:src="@drawable/ic_person_recycle_24dp" />
-
+    app:cardCornerRadius="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="#16000000"
+            android:src="@drawable/ic_person_recycle_24dp" />
+
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:orientation="horizontal">
 
-
-            <TextView
-                android:id="@+id/mid"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="2018kucp1005"
-                android:textColor="#212121"
-                android:textSize="18sp" />
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
-            <TextView
-                android:id="@+id/mname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text=""
-                android:textColor="#727272"
-                android:textSize="14sp" />
 
+                <TextView
+                    android:id="@+id/mid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2018kucp1005"
+                    android:textColor="#212121"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/mname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="#727272"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/m_enter"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:hint="Marks"
+                    android:inputType="numberDecimal" />
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/m_enter"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:hint="Marks"
-                android:inputType="numberDecimal" />
-        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
-</LinearLayout>
+</android.support.design.circularreveal.cardview.CircularRevealCardView>

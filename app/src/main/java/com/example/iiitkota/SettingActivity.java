@@ -1,5 +1,6 @@
 package com.example.iiitkota;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,13 +17,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class SettingActivity extends AppCompatActivity {
     private FirebaseUser user;
@@ -66,10 +71,6 @@ public class SettingActivity extends AppCompatActivity {
 
         Button submit = findViewById(R.id.su);
 
-        mDisplayName.setFocusableInTouchMode(false);
-        mMobileNumber.setFocusableInTouchMode(false);
-
-
         mDisplayName.setText(user.getDisplayName());
         mMobileNumber.setText(user.getPhoneNumber());
 
@@ -77,26 +78,6 @@ public class SettingActivity extends AppCompatActivity {
         Button changePassword = findViewById(R.id.passChange);
         Button save = findViewById(R.id.sav);
 
-
-        if (!mDisplayName.isFocusableInTouchMode())
-            mDisplayName.setOnClickListener(v -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-                builder.setTitle("Do you want to edit your name?");
-                builder.setPositiveButton("Yes", ((dialog, which) -> {
-                    mDisplayName.setFocusableInTouchMode(true);
-                    mDisplayName.requestFocus();
-                })).setNegativeButton("No", ((dialog, which) -> mDisplayName.setFocusableInTouchMode(false))).show();
-            });
-
-        if (!mMobileNumber.isFocusableInTouchMode())
-            mMobileNumber.setOnClickListener(v -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-                builder.setTitle("Do you want to edit your mobile number?");
-                builder.setPositiveButton("Yes", ((dialog, which) -> {
-                    mMobileNumber.setFocusableInTouchMode(true);
-                    mMobileNumber.requestFocus();
-                })).setNegativeButton("No", ((dialog, which) -> mDisplayName.setFocusableInTouchMode(false))).show();
-            });
 
         //Setting up on click listener on change password button
         changePassword.setOnClickListener(v -> {
@@ -137,7 +118,7 @@ public class SettingActivity extends AppCompatActivity {
         });
         save.setOnClickListener(v -> {
             String name = mDisplayName.getText().toString();
-
+            String number = mMobileNumber.getText().toString();
             UserProfileChangeRequest profileUpdates;
             if (!TextUtils.isEmpty(name)) {
                 profileUpdates = new UserProfileChangeRequest.Builder()
@@ -147,6 +128,41 @@ public class SettingActivity extends AppCompatActivity {
                 profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName("")
                         .build();
+            }
+            if (!TextUtils.isEmpty(number)) {
+                PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+                mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                    @Override
+                    public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
+                    }
+
+                    @Override
+                    public void onVerificationFailed(FirebaseException e) {
+                        Toast.makeText(SettingActivity.this, "Failed to verify Mobile number!!!", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        super.onCodeSent(s, forceResendingToken);
+                        Toast.makeText(SettingActivity.this, "Verification code sent!!", Toast.LENGTH_LONG).show();
+                        AlertDialog dia = new AlertDialog.Builder(SettingActivity.this).setView(R.layout.code_pick).create();
+                        dia.setButton(AlertDialog.BUTTON_POSITIVE, "Submit", (dialog, which) -> {
+                            String Code = ((TextInputEditText) dia.findViewById(R.id.code)).getText().toString();
+                            PhoneAuthCredential cre = PhoneAuthProvider.getCredential(s, Code);
+                            FirebaseAuth.getInstance().signInWithCredential(cre).addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(SettingActivity.this, "Mobile number verified", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(SettingActivity.this, "Failed to verify Mobile number!!!", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        });
+                        dia.show();
+                    }
+                };
+                PhoneAuthProvider.getInstance().verifyPhoneNumber(number, 120, TimeUnit.SECONDS, SettingActivity.this, mCallbacks);
             }
 
             user.updateProfile(profileUpdates)

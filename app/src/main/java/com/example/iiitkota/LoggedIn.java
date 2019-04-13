@@ -84,6 +84,9 @@ public class LoggedIn extends AppCompatActivity {
 //            menuItem.setChecked(true);
             int id = menuItem.getItemId();
             switch (id) {
+                case R.id.set:
+                    startActivity(new Intent(LoggedIn.this,SettingActivity.class));
+                    break;
                 case R.id.logout:
 
                     //Signing out the user

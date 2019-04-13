@@ -4,7 +4,10 @@
     tools:shownIn="navigation_view">
 
         <group >
-
+            <item
+                android:id="@+id/set"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="Setting"/>
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_sentiment_dissatisfied_black_24dp"

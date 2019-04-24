@@ -2,48 +2,41 @@ package com.example.iiitkota;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AlphaAnimation;
-import android.widget.ExpandableListView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AttendanceViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private StudentAdapter adapter;
-    private ArrayList<String> headerList = new ArrayList<>();
-    private HashMap<String, ArrayList<Pair<String, String>>> childList = new HashMap<>();
-    private Intent intent;
-    private FirebaseDatabase mRef;
-    private DatabaseReference ref;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attendance_view);
+        setContentView(R.layout.activity_attendance);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ExpandableListView listView = findViewById(R.id.expstu);
+        ViewPager viewPager = findViewById(R.id.viewPager);
+
+        setupViewPager(viewPager);
+
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+        /*ExpandableListView listView = findViewById(R.id.expstu);
 
         adapter = new StudentAdapter(AttendanceViewActivity.this,headerList,childList);
 
@@ -92,7 +85,7 @@ public class AttendanceViewActivity extends AppCompatActivity
                     }
                     childList.put(list.getStudent_ID(),str);
                 }
-                /*Adding dataSet change callback function to Adapter*/
+                *//*Adding dataSet change callback function to Adapter*//*
                 adapter.notifyDataSetChanged();
             }
 
@@ -116,7 +109,7 @@ public class AttendanceViewActivity extends AppCompatActivity
 
             }
         });
-
+*/
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -171,25 +164,6 @@ public class AttendanceViewActivity extends AppCompatActivity
             //Creating an Intent to Attendance activity
             Intent in = new Intent(AttendanceViewActivity.this, Attendance.class);
 
-            //Adding database referance key to the intent as extra information
-            in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
-
-            //Adding subject to be accessed in database to intent
-            in.putExtra("Subject", intent.getStringExtra("Subject"));
-
-            //Launching intent
-            startActivity(in);
-
-        } else if (id == R.id.marks) {
-
-            //Creating an Intent to Attendance activity
-            Intent in = new Intent(AttendanceViewActivity.this, Marks.class);
-
-            //Adding database referance key to the intent as extra information
-            in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
-
-            //Adding subject to be accessed in database to intent
-            in.putExtra("Subject", intent.getStringExtra("Subject"));
 
             //Launching intent
             startActivity(in);
@@ -212,29 +186,6 @@ public class AttendanceViewActivity extends AppCompatActivity
         } else if (id == R.id.attendancevi) {
             //Creating an Intent to Attendance activity
             Intent in = new Intent(AttendanceViewActivity.this, AttendanceViewActivity.class);
-
-            //Adding database referance key to the intent as extra information
-            in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
-
-            //Adding subject to be accessed in database to intent
-            in.putExtra("Subject", intent.getStringExtra("Subject"));
-
-            in.putExtra("Show","Attendance");
-
-            //Launching intent
-            startActivity(in);
-        } else if (id == R.id.marksv) {
-            //Creating an Intent to Attendance activity
-            Intent in = new Intent(AttendanceViewActivity.this, AttendanceViewActivity.class);
-
-            //Adding database referance key to the intent as extra information
-            in.putExtra("Database Referance key", intent.getStringExtra("Database Referance key"));
-
-            //Adding subject to be accessed in database to intent
-            in.putExtra("Subject", intent.getStringExtra("Subject"));
-
-            in.putExtra("Show","Marks");
-
             //Launching intent
             startActivity(in);
         }
@@ -242,5 +193,41 @@ public class AttendanceViewActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void setupViewPager(ViewPager viewPager) {
+        Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter.addFragment(new AttendanceV(), "Attendance");
+        adapter.addFragment(new MarksV(),"Marks");
+
+        viewPager.setAdapter(adapter);
+    }
+
+    static class Adapter extends FragmentPagerAdapter {
+        private final java.util.List<Fragment> mFragmentList = new ArrayList<>();
+        private final java.util.List<String> mFragmentTitleList = new ArrayList<>();
+
+        public Adapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }

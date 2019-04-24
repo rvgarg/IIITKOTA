@@ -7,26 +7,15 @@
         <item
             android:id="@+id/attendance"
             android:icon="@drawable/ic_person_pin"
-            android:title="Enter Attendance"
+            android:title="Enter Records"
             tools:ignore="HardcodedText" />
 
         <item
             android:id="@+id/attendancevi"
             android:icon="@drawable/ic_person_pin"
-            android:title="View Attendance"
+            android:title="View Records"
             tools:ignore="HardcodedText" />
 
-        <item
-            android:id="@+id/marks"
-            android:icon="@drawable/ic_assignment_black"
-            android:title="Enter Marks"
-            tools:ignore="HardcodedText" />
-
-        <item
-            android:id="@+id/marksv"
-            android:icon="@drawable/ic_assignment_black"
-            android:title="View Marks"
-            tools:ignore="HardcodedText" />
 
         <item
             android:id="@+id/sigot"

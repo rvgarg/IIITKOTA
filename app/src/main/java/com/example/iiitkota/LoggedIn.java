@@ -2,6 +2,7 @@ package com.example.iiitkota;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -85,7 +86,7 @@ public class LoggedIn extends AppCompatActivity {
             int id = menuItem.getItemId();
             switch (id) {
                 case R.id.set:
-                    startActivity(new Intent(LoggedIn.this,SettingActivity.class));
+                    startActivity(new Intent(LoggedIn.this, SettingActivity.class));
                     break;
                 case R.id.logout:
 
@@ -186,7 +187,7 @@ public class LoggedIn extends AppCompatActivity {
         Next.setOnClickListener(v -> {
             if (year.getSelectedItemPosition() != 0) {
                 if (subject.getSelectedItemPosition() != 0) {
-                    Main.setVisibility(View.GONE);
+                    Next.setVisibility(View.GONE);
                     Fabs.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
@@ -196,94 +197,15 @@ public class LoggedIn extends AppCompatActivity {
             }
         });
 
-        //Initializing and setting on click listener on the submit button
-        FloatingActionButton enterAttandance = findViewById(R.id.enterAttandace);
-        enterAttandance.setOnClickListener(v -> {
-            if (subject.getSelectedItemPosition() != 0) {
 
-                //Declaring and initializing intent for attendance activity
-                Intent intent = new Intent(LoggedIn.this, Attendance.class);
-
-                //Adding database referance key name to the intent
-                intent.putExtra("Database Referance key", access);
-
-                //Adding the subject chosen by the user
-                intent.putExtra("Subject", subject.getSelectedItem().toString());
-
-                //Launching intent
-                startActivity(intent);
-
-            } else {
-                Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
-            }
-        });
-        FloatingActionButton enterMarks = findViewById(R.id.enterMarks);
-        enterMarks.setOnClickListener(v -> {
-            if (subject.getSelectedItemPosition() != 0) {
-
-                //Declaring and initializing intent for attendance activity
-                Intent intent = new Intent(LoggedIn.this, Marks.class);
-
-                //Adding database referance key name to the intent
-                intent.putExtra("Database Referance key", access);
-
-                //Adding the subject chosen by the user
-                intent.putExtra("Subject", subject.getSelectedItem().toString());
-
-                //Launching intent
-                startActivity(intent);
-
-            } else {
-                Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
-            }
+        Button enter = findViewById(R.id.enter);
+        enter.setOnClickListener(v -> {
+            startActivity(new Intent(LoggedIn.this,Attendance.class));
         });
 
-        FloatingActionButton viewAttendance = findViewById(R.id.viewAttendance);
-        viewAttendance.setOnClickListener(v -> {
-            if (subject.getSelectedItemPosition() != 0) {
+        Button view = findViewById(R.id.viewd);
+        view.setOnClickListener(v -> startActivity(new Intent(LoggedIn.this,AttendanceViewActivity.class)));
 
-                //Declaring and initializing intent for attendance activity
-                Intent intent = new Intent(LoggedIn.this, AttendanceViewActivity.class);
-
-                //Adding database referance key name to the intent
-                intent.putExtra("Database Referance key", access);
-
-                //Adding the subject chosen by the user
-                intent.putExtra("Subject", subject.getSelectedItem().toString());
-
-                intent.putExtra("Show", "Attendance");
-
-                //Launching intent
-                startActivity(intent);
-
-            } else {
-                Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        FloatingActionButton viewMarks = findViewById(R.id.viewMarks);
-        viewMarks.setOnClickListener(v -> {
-            if (subject.getSelectedItemPosition() != 0) {
-
-                //Declaring and initializing intent for attendance activity
-                Intent intent = new Intent(LoggedIn.this, AttendanceViewActivity.class);
-
-                //Adding database referance key name to the intent
-                intent.putExtra("Database Referance key", access);
-
-                //Adding the subject chosen by the user
-                intent.putExtra("Subject", subject.getSelectedItem().toString());
-
-                intent.putExtra("Show", "Marks");
-
-                //Launching intent
-                startActivity(intent);
-
-            } else {
-                Toast.makeText(this, "Please select a subject !!!", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     //On option selected listener
